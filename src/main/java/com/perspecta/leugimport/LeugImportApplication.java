@@ -3,6 +3,7 @@ package com.perspecta.leugimport;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
@@ -18,7 +19,9 @@ public class LeugImportApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(LeugImportApplication.class, args);
+		new SpringApplicationBuilder()
+				.sources(LeugImportApplication.class)
+				.run(args);
 	}
 
 }
