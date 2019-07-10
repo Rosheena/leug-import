@@ -1,0 +1,336 @@
+.table-data {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+}
+
+th {
+    text-align: left !important;
+}
+
+.clickable-ellipsis:hover {
+    border-bottom: solid 1px #ddd;
+    cursor: pointer;
+}
+
+.ellipsis-modal-widow .modal-dialog {
+    width: 1024px;
+    height: 675px;
+}
+
+.ellipsis-modal-widow .ellipsis-value-container {
+    height: 300px;
+}
+
+.ellipsis-modal-widow .ellipsis-value {
+    display: block;
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 100%
+}
+
+.ellipsis-modal-widow .ellipsis-anonymous pre {
+    outline: 1px solid #ccc;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.ellipsis-modal-widow .ellipsis-json pre {
+    outline: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+}
+
+.ellipsis-modal-widow .ellipsis-json .string {
+    color: green;
+}
+
+.ellipsis-modal-widow .ellipsis-json .number {
+    color: darkorange;
+}
+
+.ellipsis-modal-widow .ellipsis-json .boolean {
+    color: blue;
+}
+
+.ellipsis-modal-widow .ellipsis-json .null {
+    color: magenta;
+}
+
+.ellipsis-modal-widow .ellipsis-json .key {
+    color: red;
+}
+
+.select-filter{
+    width: 100%;
+}
+
+.select-filter-input {
+    width: 100%;
+}
+
+.select-filter-input.magnifier {
+    padding-left: 30px;
+    background: url(../../images/icon-search.png) no-repeat 5px center;
+    background-size: 20px 20px;
+}
+
+.select-filter-clearer {
+    background: url(../../images/clearX.gif) no-repeat center center;
+    background-size: 8px 8px;
+    cursor: pointer;
+    padding: 10px;
+    border-left: none;
+    width: 20px;
+    margin-left: -25px;
+}
+
+.select-filter-loading {
+    background: white url(../../images/spinner64x64.gif) no-repeat center center;
+    background-size: 16px 16px;
+    padding: 7px 10px;
+    border-left: none;
+    width: 20px;
+    margin-left: -25px;
+}
+
+[memberType="CORPORATE"].display-member-type-icon {
+    background: url(../../images/icon-corporate.png) no-repeat 5px center;
+    background-size: 16px 16px;
+    padding-left: 30px;
+}
+
+[memberType="INDIVIDUAL"].display-member-type-icon {
+    background: url(../../images/icon-individual.png) no-repeat 5px center;
+    background-size: 16px 16px;
+    padding-left: 30px;
+}
+
+[memberType="PROSPECT"].display-member-type-icon {
+    background: url(../../images/icon-prospect.png) no-repeat 5px center;
+    background-size: 16px 16px;
+    padding-left: 30px;
+}
+
+[memberType="TIER2"].display-member-type-icon {
+    background: url(../../images/icon-prospect.png) no-repeat 5px center;
+    background-size: 16px 16px;
+    padding-left: 30px;
+}
+
+
+[memberType="PARTNER"].display-member-type-icon {
+    background: url(../../images/icon-partner.png) no-repeat 5px center;
+    background-size: 16px 16px;
+    padding-left: 30px;
+}
+
+.upload-tmc-file-widow .modal-dialog {
+    width: 1024px;
+    height: 465px;
+}
+
+.drop-box {
+    background: #F8F8F8;
+    border: dotted 3px lightgray;;
+    width: 500px;
+    height: 250px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.drop-box .link {
+    border-bottom: 1px solid #ddd;
+}
+
+.drop-box .link:hover {
+    border-color: #1c1c1c;
+}
+
+.nv-file-over {
+    border: dotted 3px red;
+}
+
+.progressContainer {
+    padding: 19px;
+
+    width: 500px;
+    height: 250px;
+
+    text-align: center;
+    vertical-align: middle;
+}
+
+.resultContainer {
+    padding: 19px;
+    background-color: lightgrey;
+
+    width: 90%;
+    height: 250px;
+
+    text-align: left;
+    vertical-align: top;
+    display: table-cell;
+}
+
+.resultContainer .result {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 94%;
+}
+
+.resultContainer #bottom {
+    display: block;
+    margin-top: 0;
+}
+
+[level="INFO"].processing-result {
+    color: #002a80;
+}
+
+[level="WARNING"].processing-result {
+    color: #d58512;
+}
+
+[level="ERROR"].processing-result {
+    color: #ac2925;
+}
+
+.spinner {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.81);
+    vertical-align: middle;
+    text-align: center;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    box-sizing: content-box;
+}
+
+.spinner-helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+pre {
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.sortColumnSelected {
+    background-color: rgba(141, 192, 219, 0.25);
+}
+.card {
+    border: 1px solid #D0D0D0;
+    border-radius: 3px;
+    position: relative;
+    padding: 10px 20px;
+    margin: 0;
+}
+
+.error {
+    color: #b92c28;
+}
+
+/* -------------------------------- */
+/*		Notifications				*/
+/* -------------------------------- */
+
+.notifications {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    height: auto;
+    width: 300px;
+    z-index: 9999;
+}
+
+.notifications-red {
+    background: rgba(217, 0, 0, 0.70);
+}
+
+.notifications-orange {
+    background: rgba(255, 136, 0, 0.90);
+}
+
+.notifications-blue {
+    background: rgba(53, 78, 113, 0.70);
+}
+
+.notifications-green {
+    background: rgba(101, 154, 0, 0.70);
+}
+
+.notifications-yellow {
+    background: rgba(255, 194, 0, 0.88);
+}
+
+.notifications a {
+    cursor: hand;
+    cursor: pointer;
+}
+
+.notification-body {
+    padding: 0 15px 15px;
+    color: #fff;
+    max-height: 350px;
+    overflow: auto;
+}
+
+.notification-body p {
+    font-size: 16px;
+}
+
+.notifications-member-alert {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 300px;
+    z-index: 9999;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.notifications-member-alert .notification-body {
+    display: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 15px 15px;
+}
+
+.notification-toggle {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.notifications-orange .notification-toggle {
+    background: rgba(255, 136, 0, 1);
+}

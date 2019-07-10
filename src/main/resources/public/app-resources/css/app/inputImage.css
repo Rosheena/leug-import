@@ -1,0 +1,114 @@
+.inputImage .without-image {
+    background-color: #eee;
+    width: 200px;
+    height: 200px;
+    border: #CCCCCC thin dashed;
+    min-height: 10em;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+.inputImage .without-image:hover {
+    color: rgba(0, 0, 0, 1);
+    text-decoration: underline;
+}
+
+.inputImage .with-image {
+    position: relative;
+    background: url('../../images/grey-squares-as-transparent.png') repeat;
+    width: 200px;
+    height: 200px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.inputImage .with-image img {
+    max-width: 99%;
+    max-height: 99%;
+}
+
+.inputImage .with-image .btn-group {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    opacity: 0;
+    transition: opacity ease-in 200ms;
+}
+
+.inputImage .with-image:hover .btn-group {
+    opacity: 1;
+}
+
+.inputImage-selector-widow .modal-dialog {
+    width: 725px;
+}
+
+.inputImage-selector-widow .modal-body {
+    height: 480px;
+}
+
+.inputImage-selector-widow .images-list {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%
+}
+
+.inputImage-selector-widow .available-image{
+    position: relative;
+    background: url('../../images/grey-squares-as-transparent.png') repeat;
+    width: 200px;
+    height: 200px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    border: solid thin transparent;
+    cursor: pointer;
+}
+
+.inputImage-selector-widow .available-image  img {
+    max-width: 99%;
+    max-height: 99%;
+}
+
+.inputImage-selector-widow .available-image .btn-group {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    opacity: 0;
+    transition: opacity ease-in 200ms;
+}
+
+.inputImage-selector-widow .available-image:hover .btn-group {
+    opacity: 1;
+}
+
+.inputImage-selector-widow  .upload-image{
+    background-color: #eee;
+    width: 200px;
+    height: 200px;
+    border: #CCCCCC thin dashed;
+    min-height: 10em;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+.inputImage-selector-widow  .upload-image {
+    color: rgba(0, 0, 0, 1);
+    text-decoration: underline;
+}
+
+.inputImage-selector-widow .available-image.selected{
+    border: solid thin green;
+}
+
+.nv-file-over {
+    border: dotted 3px #ddd !important;
+}
