@@ -10,7 +10,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @SpringBootApplication
-public class LeugImportApplication {
+public class LuegImportApplication {
 
 	@Bean
 	@Primary
@@ -31,7 +31,7 @@ public class LeugImportApplication {
 
 	public static void main(String[] args) {
 		new SpringApplicationBuilder()
-				.sources(LeugImportApplication.class)
+				.sources(LuegImportApplication.class)
 				.run(args);
 	}
 

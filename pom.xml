@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.perspecta</groupId>
-	<artifactId>leug-import</artifactId>
+	<artifactId>lueg-import</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>leug-import</name>
+	<name>lueg-import</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
