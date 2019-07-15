@@ -23,6 +23,7 @@ public class Security_2_Api_Rule extends WebSecurityConfigurerAdapter {
 		this.loginUserService = loginUserService;
 	}
 
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement()
