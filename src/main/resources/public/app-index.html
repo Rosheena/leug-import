@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Perspecta Leug Import Tool</title>
+	<title>Perspecta Lueg Import Tool</title>
 	<link href="app-resources/css/lib/bootstrap-3.3.7.css" rel="stylesheet">
 	<link href="app-resources/css/lib/bootstrap-theme-3.3.7.css" rel="stylesheet">
 	<link href="app-resources/css/lib/ng-table-1.0.0.css" rel="stylesheet">
@@ -8,60 +8,10 @@
 	<link href="app-resources/css/app/main.css" rel="stylesheet">
 	<link href="app-resources/css/app/inputImage.css" rel="stylesheet">
 </head>
-<body ng-app="FlightApp" ng-cloak>
+<body ng-app="LuegImportApp" ng-cloak>
 
 <div class="container">
-	<!-- Static navbar -->
-	<nav class="navbar navbar-inverse" ng-if="current_user">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Flight Service</a>
-			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li ng-class="{ active: isActive('/revenue-management')}"><a href="#!/revenue-management">Revenue Management</a></li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">Instant Book
-							<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#!/country-whitelist">Country Whitelist</a></li>
-							<li><a href="#!/blackout-us-region">US Region Blacklist</a></li>
-							<li><a href="#!/price-guard">Price Guard</a></li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">Aircraft
-							<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#!/aircraft-category">Aircraft Category</a></li>
-							<li><a href="#!/aircraft-type">Aircraft Type</a></li>
-							<li><a href="#!/marketplace-image">Marketplace Images</a></li>
-						</ul>
-					</li>
-					<li ng-class="{ active: isActive('/market-override')}"><a href="#!/market-override">Market Price Override</a></li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown">Operator Override
-							<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#!/flyexclusive-override">FlyExclusive Override</a></li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#!/logout">
-						Logout
-					</a></li>
-				</ul>
-
-			</div><!--/.nav-collapse -->
-		</div><!--/.container-fluid -->
-	</nav>
+Tool
 </div>
 <div ng-view class="container"></div>
 

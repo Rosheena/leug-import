@@ -1,6 +1,6 @@
-package com.perspecta.leugimport.business.common.error.delegate;
+package com.perspecta.luegimport.business.common.error.delegate;
 
-import com.perspecta.leugimport.business.common.error.exception.ServiceException;
+import com.perspecta.luegimport.business.common.error.exception.ServiceException;
 
 import java.util.function.Supplier;
 
