@@ -5,7 +5,7 @@
 spring:
   datasource:
     classname: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wheelsup
+    url: jdbc:mysql://localhost:3306/wheelsup?serverTimezone=America/New_York&autoReconnect=true
     username: 'wheelsupuser'
     password: 'WHEELSUP@!!2013'
     # Keep the connection alive if idle for a long time (needed in production)
