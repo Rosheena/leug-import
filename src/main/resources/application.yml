@@ -26,17 +26,27 @@ spring:
     # the project
     hibernate:
       ddl-auto: none
-      dialect: org.hibernate.dialect.MySQL5Dialect
       naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
-        cache:
-          use_second_level_cache: false
-          use_query_cache: false
-          region:
-            factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL5Dialect
+          cache:
+            use_second_level_cache: true
+            use_query_cache: true
+            region:
+              factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+          jdbc:
+            batch_size: 100
+            #Set this property to true if your JDBC driver returns correct row counts from executeBatch(). It is usually safe to turn this option on
+            batch_versioned_data: true
+          #below property should be false in production, otherwise performance will be affected.
+          generate_statistics: false
+          order_inserts: true
+          order_updates: true
 
+server:
+  port: 9005
+  servlet:
+    conext-path: /
