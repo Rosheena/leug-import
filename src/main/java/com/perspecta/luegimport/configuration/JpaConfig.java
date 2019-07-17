@@ -1,4 +1,4 @@
-package com.perspecta.leugimport.configuration;
+package com.perspecta.luegimport.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

@@ -1,4 +1,4 @@
-package com.perspecta.leugimport.configuration;
+package com.perspecta.luegimport.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

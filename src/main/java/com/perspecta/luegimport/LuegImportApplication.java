@@ -1,4 +1,4 @@
-package com.perspecta.leugimport;
+package com.perspecta.luegimport;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
