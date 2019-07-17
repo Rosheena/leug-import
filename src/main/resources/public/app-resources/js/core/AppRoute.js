@@ -20,6 +20,9 @@ LuegImportApp
     .config(
         function ($routeProvider) {
             $routeProvider
+                .when('/', {
+                    templateUrl: 'app-resources/app-index.html',
+                })
                 .when('/login', {
                     templateUrl: 'app-resources/views/login.html',
                     controller: 'LoginController',
