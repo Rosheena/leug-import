@@ -28,7 +28,7 @@ public class Security_3_App_Rule extends WebSecurityConfigurerAdapter {
 		http
 				.antMatcher("/app/**")
 				.authorizeRequests()
-				.anyRequest().hasAnyRole(Roles.API)
+				.anyRequest().hasAnyRole(Roles.USER)
 				.and()
 				.httpBasic().realmName("app");
 	}

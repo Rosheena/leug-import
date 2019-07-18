@@ -21,10 +21,16 @@ LuegImportApp
         function ($routeProvider) {
             $routeProvider
                 .when('/', {
-                    templateUrl: 'app-resources/app-index.html',
+                    templateUrl: 'app-resources/view/home.html',
+                    controller: 'HomeController',
+                    resolve: {
+                        loggedIn: function (URLSecurity) {
+                            return URLSecurity.is_authenticated();
+                        }
+                    }
                 })
                 .when('/login', {
-                    templateUrl: 'app-resources/views/login.html',
+                    templateUrl: 'app-resources/view/login.html',
                     controller: 'LoginController',
                     name: 'login'
                 })

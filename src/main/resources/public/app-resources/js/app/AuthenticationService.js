@@ -30,7 +30,7 @@ LuegImportApp.service('AuthenticationService',
 
             return $q(
                 function (resolve, reject) {
-                    $http.get("app/me", {
+                    $http.get("api/me", {
                         headers: {
                             Authorization: authorization
                         }
@@ -58,7 +58,7 @@ LuegImportApp.service('AuthenticationService',
                     var authorization = getAuthorization();
 
                     if(angular.isString(authorization)){
-                        $http.get("app/me")
+                        $http.get("api/me")
                             .then(function (payload) {
                                 var user = payload.data;
 

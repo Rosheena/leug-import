@@ -16,6 +16,7 @@ LuegImportApp.controller('LoginController',
             AuthenticationService.authenticate($scope.username, $scope.password)
                 .then(
                     function () {
+                        console.log("to home")
                         $rootScope.navigateTo('/home')
                     },
                     function (err) {

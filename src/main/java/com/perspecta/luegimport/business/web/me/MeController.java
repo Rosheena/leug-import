@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/me")
 public class MeController {
 
-	@PreAuthorize("hasAnyRole(@Roles.ROLE_USER)")
+	@PreAuthorize("hasAnyRole(@Roles.USER)")
 	@GetMapping
 	public Me me() {
 		return Me.init(CurrentUser.getUser());
