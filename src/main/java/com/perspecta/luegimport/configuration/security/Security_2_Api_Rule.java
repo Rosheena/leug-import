@@ -34,7 +34,7 @@ public class Security_2_Api_Rule extends WebSecurityConfigurerAdapter {
 		http
 				.antMatcher("/api/**")
 				.authorizeRequests()
-				.anyRequest().hasAnyRole(Roles.API)
+				.anyRequest().hasAnyRole(Roles.USER)
 				.and()
 				.httpBasic().realmName("api");
 	}

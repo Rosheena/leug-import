@@ -36,16 +36,22 @@ LuegImportApp.service('AuthenticationService',
                         }
                     })
                         .then(function (payload) {
-                            var user = payload.data;
+                             var user = payload.data;
 
-                            console.log('User ' + user.username + ' is authenticated');
+                             console.log('User ' + user.username + ' is authenticated');
 
-                            StorageService.setItem(AUTHORIZATION, authorization);
+                             StorageService.setItem(AUTHORIZATION, authorization);
 
-                            _this.setupAuthorization();
+                             _this.setupAuthorization();
 
-                            notify
-                        })
+                             notifyObservers(user);
+
+                             resolve(user);
+                        }, function (err) {
+                             console.log(err);
+
+                             reject(err);
+                          })
                 }
             )
         };
