@@ -1,4 +1,4 @@
-package com.perspecta.luegimport.business.web.me.file_import;
+package com.perspecta.luegimport.business.web.file_import;
 
 import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.user.User;
