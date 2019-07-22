@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -31,8 +30,7 @@ public class FileImportService {
 		try {
 			InputStream inputFileStream = file.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputFileStream));
-			// skip the header of the csv
-			documentWrapperList = br.lines().skip(1).map(this::mapToDocumentWrapper).collect(Collectors.toList());
+			documentWrapperList = br.lines().skip(1).map(line -> mapToDocumentWrapper(line, userName)).collect(Collectors.toList());
 			br.close();
 		} catch (Exception ex){
 			log.error("Error processing the file: "+ex);
@@ -50,7 +48,7 @@ public class FileImportService {
 
 	}
 
-	private DocumentWrapper mapToDocumentWrapper(String line){
+	private DocumentWrapper mapToDocumentWrapper(String line, String userName){
 		String[] tokens = line.split(",");// a CSV has comma separated lines
 		DocumentWrapper documentWrapper = new DocumentWrapper();
 		Document document = new Document();
@@ -87,6 +85,7 @@ public class FileImportService {
 		}
 
 		documentWrapper.setDocument(document);
+		documentWrapper.setUserName(userName);
 
 		return documentWrapper;
 	}
