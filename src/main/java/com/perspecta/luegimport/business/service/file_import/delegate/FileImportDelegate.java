@@ -8,9 +8,9 @@ import java.util.List;
 
 public class FileImportDelegate {
 
-	public List<Document> parseFile(MultipartFile file){
+	/*public List<Document> parseFile(MultipartFile file){
 
 		Path filePath = file.get
 
-	}
+	}*/
 }
