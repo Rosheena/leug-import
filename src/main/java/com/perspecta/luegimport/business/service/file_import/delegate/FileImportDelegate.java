@@ -40,10 +40,8 @@ public class FileImportDelegate {
 		return documentWrapperList;
 	}
 
-	public void validate(List<DocumentWrapper> documentWrapperList, String userName) {
-		List<DocumentWrapper> successvalidations = new ArrayList<>();
-		Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations = new HashMap<>();
-
+	public void validateFields(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper>  successvalidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+		// validate the list for empty fields
 		documentWrapperList
 				.forEach(documentWrapper -> {
 					if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())
@@ -60,17 +58,21 @@ public class FileImportDelegate {
 						successvalidations.add(documentWrapper);
 					}
 				});
+	}
 
+	public void existingDocumentCheck(String userName, List<DocumentWrapper> documentWrapperList, List<DocumentWrapper>  successvalidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+
+		// validate with the local database if the cpId exists
 		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findByUserNameEquals(userName);
 
-		if(CollectionUtils.isNotEmpty(userExistingDocuments)){
+		if (CollectionUtils.isNotEmpty(userExistingDocuments)) {
 			documentWrapperList.stream()
 					.filter(documentWrapper -> documentWrapper.getIsValidated())
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)
 								.anyMatch(document -> document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId()));
-						if(documentExists){
+						if (documentExists) {
 							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE))) {
 								failedValidations.get(DocumentErrorTypes.DUPLICATE).add(documentWrapper);
 							} else {
@@ -81,10 +83,7 @@ public class FileImportDelegate {
 						}
 					});
 		}
-
-	// TODO: validate with the local database if the cpId exists
-	// TODO: validate with the remote database if the cpId isnt valid
-}
+	}
 
 	private DocumentWrapper mapToDocumentWrapper(String line, String userName) {
 		String[] tokens = line.split(",");// a CSV has comma separated lines
