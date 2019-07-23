@@ -2,6 +2,7 @@ package com.perspecta.luegimport.business.service.file_import.delegate;
 
 import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
+import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentErrorTypes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FileImportDelegate {
 
+	private final DocumentWrapperRepository documentWrapperRepository;
+
 	public List<DocumentWrapper> parseFile(String userName, MultipartFile file) {
 
 		List<DocumentWrapper> documentWrapperList = new ArrayList<>();
@@ -37,7 +40,7 @@ public class FileImportDelegate {
 		return documentWrapperList;
 	}
 
-	public void validate(List<DocumentWrapper> documentWrapperList) {
+	public void validate(List<DocumentWrapper> documentWrapperList, String userName) {
 		List<DocumentWrapper> successvalidations = new ArrayList<>();
 		Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations = new HashMap<>();
 
@@ -52,8 +55,33 @@ public class FileImportDelegate {
 						} else {
 							failedValidations.put(DocumentErrorTypes.MISSING_FIELD, new ArrayList<>(Arrays.asList(documentWrapper)));
 						}
+					} else {
+						documentWrapper.setIsValidated(true);
+						successvalidations.add(documentWrapper);
 					}
 				});
+
+		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findByUserNameEquals(userName);
+
+		if(CollectionUtils.isNotEmpty(userExistingDocuments)){
+			documentWrapperList.stream()
+					.filter(documentWrapper -> documentWrapper.getIsValidated())
+					.forEach(documentWrapper -> {
+						boolean documentExists = userExistingDocuments.stream()
+								.map(DocumentWrapper::getDocument)
+								.anyMatch(document -> document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId()));
+						if(documentExists){
+							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE))) {
+								failedValidations.get(DocumentErrorTypes.DUPLICATE).add(documentWrapper);
+							} else {
+								failedValidations.put(DocumentErrorTypes.DUPLICATE, new ArrayList<>(Arrays.asList(documentWrapper)));
+							}
+						} else {
+							successvalidations.add(documentWrapper);
+						}
+					});
+		}
+
 	// TODO: validate with the local database if the cpId exists
 	// TODO: validate with the remote database if the cpId isnt valid
 }
