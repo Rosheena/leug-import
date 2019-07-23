@@ -9,5 +9,5 @@ import java.util.Map;
 @Data
 public class DocumentView {
 	private List<DocumentWrapper> successValidations;
-	private Map<String, List<DocumentWrapper>> failedValidations;
+	private Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations;
 }
