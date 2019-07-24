@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -40,7 +41,7 @@ public class FileImportDelegate {
 		return documentWrapperList;
 	}
 
-	public void validateFields(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper>  successvalidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+	public void validateFields(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
 		// validate the list for empty fields
 		documentWrapperList
 				.forEach(documentWrapper -> {
@@ -55,12 +56,28 @@ public class FileImportDelegate {
 						}
 					} else {
 						documentWrapper.setIsValidated(true);
-						successvalidations.add(documentWrapper);
+						successValidations.add(documentWrapper);
 					}
 				});
 	}
 
-	public void existingDocumentCheck(String userName, List<DocumentWrapper> documentWrapperList, List<DocumentWrapper>  successvalidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+	public void checkFilePath(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations){
+		documentWrapperList.stream()
+				.filter(documentWrapper -> documentWrapper.getIsValidated())
+				.forEach(documentWrapper -> {
+					if(!new File("/Users/al/.bash_history").isFile()){
+						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.INVALID_PATH))) {
+							failedValidations.get(DocumentErrorTypes.INVALID_PATH).add(documentWrapper);
+						} else {
+							failedValidations.put(DocumentErrorTypes.INVALID_PATH, new ArrayList<>(Arrays.asList(documentWrapper)));
+						}
+					} else {
+						successValidations.add(documentWrapper);
+					}
+				});
+	}
+
+	public void existingDocumentCheck(String userName, List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
 
 		// validate with the local database if the cpId exists
 		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findByUserNameEquals(userName);
@@ -79,7 +96,7 @@ public class FileImportDelegate {
 								failedValidations.put(DocumentErrorTypes.DUPLICATE, new ArrayList<>(Arrays.asList(documentWrapper)));
 							}
 						} else {
-							successvalidations.add(documentWrapper);
+							successValidations.add(documentWrapper);
 						}
 					});
 		}

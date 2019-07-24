@@ -10,14 +10,13 @@ import com.perspecta.luegimport.business.service.file_import.dto.DocumentErrorTy
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -29,21 +28,26 @@ public class FileImportService {
 	private final DocumentRepository documentRepository;
 
 	public List<Document> validate(String userName, MultipartFile file){
-		List<DocumentWrapper> successvalidations = new ArrayList<>();
+		List<DocumentWrapper> successValidations = new ArrayList<>();
 		Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations = new HashMap<>();
 		// parse file
 		List<DocumentWrapper> documentWrapperList = fileImportDelegate.parseFile(userName, file);
 
-		// validate file fields
-		fileImportDelegate.validateFields(documentWrapperList, successvalidations, failedValidations);
+		if(CollectionUtils.isNotEmpty(documentWrapperList)){
+			// validate file fields
+			fileImportDelegate.validateFields(documentWrapperList, successValidations, failedValidations);
 
-		// validate to check if document is a duplicate
-		fileImportDelegate.existingDocumentCheck(userName, documentWrapperList, successvalidations, failedValidations);
+			// check if file location is valid
+			fileImportDelegate.checkFilePath(documentWrapperList, successValidations, failedValidations);
 
-		// TODO: validate with the remote database if the cpId isnt valid
+			// validate to check if document is a duplicate
+			fileImportDelegate.existingDocumentCheck(userName, documentWrapperList, successValidations, failedValidations);
 
-		if(CollectionUtils.isNotEmpty(successvalidations)){
-			successvalidations.forEach(documentWrapper -> {
+			// TODO: validate with the remote database if the cpId isnt valid
+		}
+
+		if(CollectionUtils.isNotEmpty(successValidations)){
+			successValidations.forEach(documentWrapper -> {
 				documentRepository.save(documentWrapper.getDocument());
 				documentWrapperRepository.save(documentWrapper);
 			});
