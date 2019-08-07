@@ -65,7 +65,7 @@ public class FileImportDelegate {
 		documentWrapperList.stream()
 				.filter(documentWrapper -> documentWrapper.getIsValidated())
 				.forEach(documentWrapper -> {
-					if(!new File("/Users/al/.bash_history").isFile()){
+					if(!new File(documentWrapper.getDocument().getFileLocation()).isFile()){
 						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.INVALID_PATH))) {
 							failedValidations.get(DocumentErrorTypes.INVALID_PATH).add(documentWrapper);
 						} else {

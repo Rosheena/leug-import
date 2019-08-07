@@ -7,6 +7,7 @@ import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper
 import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.delegate.FileImportDelegate;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentErrorTypes;
+import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,7 +28,8 @@ public class FileImportService {
 	private final DocumentWrapperRepository documentWrapperRepository;
 	private final DocumentRepository documentRepository;
 
-	public List<Document> validate(String userName, MultipartFile file){
+	public DocumentView validate(String userName, MultipartFile file){
+		DocumentView documentView = new DocumentView();
 		List<DocumentWrapper> successValidations = new ArrayList<>();
 		Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations = new HashMap<>();
 		// parse file
@@ -46,14 +48,22 @@ public class FileImportService {
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
 
+		if(MapUtils.isNotEmpty(failedValidations)){
+			documentView.setFailedValidations(failedValidations);
+		}
+
 		if(CollectionUtils.isNotEmpty(successValidations)){
+			documentView.setSuccessValidations(successValidations);
+		}
+
+		/*if(CollectionUtils.isNotEmpty(successValidations)){
 			successValidations.forEach(documentWrapper -> {
 				documentRepository.save(documentWrapper.getDocument());
 				documentWrapperRepository.save(documentWrapper);
 			});
 		}
-
-		return null;
+*/
+		return documentView;
 	}
 
 	public void upload(User user, MultipartFile file){

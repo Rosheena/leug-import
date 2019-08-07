@@ -3,6 +3,7 @@ package com.perspecta.luegimport.business.web.file_import;
 import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.FileImportService;
+import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +22,14 @@ public class FileImportController {
 	private final FileImportService fileImportService;
 
 	@PostMapping("/validate")
-	public List<Document> validateFile(@RequestParam String userName, @RequestParam MultipartFile file){
+	public DocumentView validateFile(@RequestParam String userName, @RequestParam MultipartFile file){
 		return fileImportService.validate(userName, file);
 	}
 
 	@PostMapping("/upload")
 	public void handleFileUpload(@RequestParam User user, @RequestParam MultipartFile file){
+		// TODO: generate a csv file for the failed validations
+		// TODO: save the successful validations in the database and process them
 		fileImportService.upload(user, file);
 	}
 }
