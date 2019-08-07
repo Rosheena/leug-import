@@ -1,6 +1,5 @@
 package com.perspecta.luegimport.business.service.file_import;
 
-import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
@@ -15,8 +14,6 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.util.*;
 
 @Service

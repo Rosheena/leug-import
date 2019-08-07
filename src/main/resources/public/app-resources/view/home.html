@@ -6,10 +6,50 @@
 			<div class="panel-heading">Lueg Import Tool</div>
 			<div class="panel-body">
 
-				<div>
-					Welcome, {{current_user.username}}
+				<form name="luegForm" novalidate>
+					<input type="hidden" ng-model="RevenueManagementDTO.id">
 
-				</div>
+
+					<table ng-table="tableParams" class="table table-hover table-condensed table-striped table-data">
+
+						<tbody ng-show="$data.length === 0">
+						<tr>
+							<td>no results found</td>
+						</tr>
+						</tbody>
+
+
+						<thead ng-show="$data.length !== 0">
+						<th style="width: 200px;">Key</th>
+						<th style="width: 400px;">Value</th>
+
+
+						<th >
+							Action
+						</th>
+
+						</thead>
+						<tbody>
+						<tr ng-repeat="row in $data track by row.id" style="cursor: pointer">
+
+							<td>{{row.revenueManagementKey.label}}</td>
+							<td>
+
+								<input ng-model="row.revenueManagementValue" class="form-control" name="{{row.revenueManagementKey.label}}"></td>
+
+							<td>
+								<button class="btn btn-primary" ng-click="save(row)">
+									<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+								</button>
+							</td>
+						</tr>
+
+						</tbody>
+
+					</table>
+
+
+				</form>
 			</div>
 
 		</div>
