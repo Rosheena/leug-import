@@ -26,7 +26,7 @@ public class FileImportController {
 		return fileImportService.validate(userName, file);
 	}
 
-	@PostMapping("/upload")
+	@PostMapping("/process")
 	public void handleFileUpload(@RequestParam User user, @RequestParam MultipartFile file){
 		// TODO: generate a csv file for the failed validations
 		// TODO: save the successful validations in the database and process them
