@@ -29,3 +29,19 @@ var LuegImportApp =
                 $qProvider.errorOnUnhandledRejections(false);
             }
         );
+
+LuegImportApp.run(
+    function ($rootScope, $location, AuthenticationService) {
+        $rootScope.navigateTo = function (stateName) {
+            $state.go(stateName);
+        };
+
+        AuthenticationService.registerObserverCallback(
+            function (user) {
+                $rootScope.current_user = user;
+            }
+        );
+
+        AuthenticationService.setupAuthorization();
+    }
+);
