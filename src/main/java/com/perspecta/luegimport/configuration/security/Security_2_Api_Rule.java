@@ -36,7 +36,11 @@ public class Security_2_Api_Rule extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.anyRequest().hasAnyRole(Roles.USER)
 				.and()
-				.httpBasic().realmName("api");
+				.httpBasic().realmName("api")
+				.and()
+				.formLogin()
+				.loginPage("/login.html");
+
 	}
 
 	@Override
