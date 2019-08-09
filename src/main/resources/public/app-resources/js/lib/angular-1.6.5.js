@@ -3452,7 +3452,7 @@ function jqLiteDocumentLoaded(action, win) {
   win = win || window;
   if (win.document.readyState === 'complete') {
     // Force the action to be run async for consistent behavior
-    // from the action's point of view
+    // from the action's point of views
     // i.e. it will definitely not be in a $apply
     win.setTimeout(action);
   } else {
@@ -17419,7 +17419,7 @@ function $$RAFProvider() { //rAF
  *
  * Every application has a single root {@link ng.$rootScope.Scope scope}.
  * All other scopes are descendant scopes of the root scope. Scopes provide separation
- * between the model and the view, via a mechanism for watching the model for changes.
+ * between the model and the views, via a mechanism for watching the model for changes.
  * They also provide event emission/broadcast and subscription facility. See the
  * {@link guide/scope developer guide on scopes}.
  */
@@ -25693,7 +25693,7 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
  * @param {number=} ngMinlength Sets `minlength` validation error key if the value is shorter than
  *    minlength.
  * @param {number=} ngMaxlength Sets `maxlength` validation error key if the value is longer than
- *    maxlength. Setting the attribute to a negative or non-numeric value, allows view values of any
+ *    maxlength. Setting the attribute to a negative or non-numeric value, allows views values of any
  *    length.
  * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
  *    does not match a RegExp found by evaluating the Angular expression given in the attribute value.
@@ -28660,12 +28660,12 @@ NgModelController.prototype = {
    * @name ngModel.NgModelController#$render
    *
    * @description
-   * Called when the view needs to be updated. It is expected that the user of the ng-model
+   * Called when the views needs to be updated. It is expected that the user of the ng-model
    * directive will implement this method.
    *
    * The `$render()` method is invoked in the following situations:
    *
-   * * `$rollbackViewValue()` is called.  If we are rolling back the view value to the last
+   * * `$rollbackViewValue()` is called.  If we are rolling back the views value to the last
    *   committed value then `$render()` is called to update the input control.
    * * The value referenced by `ng-model` is changed programmatically and both the `$modelValue` and
    *   the `$viewValue` are different from last time.
@@ -28896,8 +28896,8 @@ NgModelController.prototype = {
 
     var viewValue = this.$$lastCommittedViewValue;
     // Note: we use the $$rawModelValue as $modelValue might have been
-    // set to undefined during a view -> model update that found validation
-    // errors. We can't parse the view here, since that could change
+    // set to undefined during a views -> model update that found validation
+    // errors. We can't parse the views here, since that could change
     // the model although neither viewValue nor the model on the scope changed
     var modelValue = this.$$rawModelValue;
 
@@ -29032,7 +29032,7 @@ NgModelController.prototype = {
 
     this.$$timeout.cancel(this.$$pendingDebounce);
 
-    // If the view value has not changed then we should just exit, except in the case where there is
+    // If the views value has not changed then we should just exit, except in the case where there is
     // a native validator on the element. In this case the validation state may have changed even though
     // the viewValue has stayed empty.
     if (this.$$lastCommittedViewValue === viewValue && (viewValue !== '' || !this.$$hasNativeValidators)) {
@@ -29114,9 +29114,9 @@ NgModelController.prototype = {
    * @name ngModel.NgModelController#$setViewValue
    *
    * @description
-   * Update the view value.
+   * Update the views value.
    *
-   * This method should be called when a control wants to change the view value; typically,
+   * This method should be called when a control wants to change the views value; typically,
    * this is done from within a DOM event handler. For example, the {@link ng.directive:input input}
    * directive calls it when the value of the input changes and {@link ng.directive:select select}
    * calls it when an option is selected.
@@ -29136,7 +29136,7 @@ NgModelController.prototype = {
    * Note that a `$digest` is only triggered once the `updateOn` events are fired, or if `debounce`
    * is specified, once the timer runs out.
    *
-   * When used with standard inputs, the view value will always be a string (which is in some cases
+   * When used with standard inputs, the views value will always be a string (which is in some cases
    * parsed into another type, such as a `Date` object for `input[date]`.)
    * However, custom controls might also pass objects to this method. In this case, we should make
    * a copy of the object before passing it to `$setViewValue`. This is because `ngModel` does not
@@ -29157,7 +29157,7 @@ NgModelController.prototype = {
    * to update the DOM, and finally call `$validate` on it.
    * </div>
    *
-   * @param {*} value value from the view.
+   * @param {*} value value from the views.
    * @param {string} trigger Event that triggered the update.
    */
   $setViewValue: function(value, trigger) {
@@ -29223,7 +29223,7 @@ function setupModelWatcher(ctrl) {
   // 3. ng-change kicks in and reverts scope value to 'a'
   //    -> scope value did not change since the last digest as
   //       ng-change executes in apply phase
-  // 4. view should be changed back to 'a'
+  // 4. views should be changed back to 'a'
   ctrl.$$scope.$watch(function ngModelWatch(scope) {
     var modelValue = ctrl.$$ngModelGet(scope);
 
@@ -29249,7 +29249,7 @@ function setupModelWatcher(ctrl) {
         ctrl.$viewValue = ctrl.$$lastCommittedViewValue = viewValue;
         ctrl.$render();
 
-        // It is possible that model and view value have been updated during render
+        // It is possible that model and views value have been updated during render
         ctrl.$$runValidators(ctrl.$modelValue, ctrl.$viewValue, noop);
       }
     }

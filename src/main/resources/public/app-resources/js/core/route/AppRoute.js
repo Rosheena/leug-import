@@ -16,7 +16,7 @@ LuegImportApp
                     url: '/login',
                     controller: 'LoginController',
                     controllerAs: 'loginCtrl',
-                    templateUrl: 'app-resources/views/login/login.html'
+                    templateUrl: '  app-resources/views/login/login.html'
                 })
                 .state({
                     abstract:true,
@@ -78,7 +78,7 @@ LuegImportApp
             // For any unmatched url, send to login page
             $urlRouterProvider.otherwise("/login");
                 .when('/', {
-                    templateUrl: 'app-resources/view/home.html',
+                    templateUrl: 'app-resources/views/home.html',
                     controller: 'HomeController',
                     resolve: {
                         loggedIn: function (URLSecurity) {
@@ -87,7 +87,7 @@ LuegImportApp
                     }
                 })
                 .when('/login', {
-                    templateUrl: 'app-resources/view/login.html',
+                    templateUrl: 'app-resources/views/login.html',
                     controller: 'LoginController',
                     name: 'login'
                 })

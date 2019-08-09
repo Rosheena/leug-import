@@ -2866,7 +2866,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
       });
     }
 
-    // Detect changes in the view from the text box
+    // Detect changes in the views from the text box
     ngModel.$viewChangeListeners.push(function() {
       $scope.date = parseDateString(ngModel.$viewValue);
     });
@@ -6936,7 +6936,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       isNoResultsSetter(originalScope, false);
       $q.when(parserResult.source(originalScope, locals)).then(function(matches) {
         //it might happen that several async queries were in progress if a user were typing fast
-        //but we are interested only in responses that correspond to the current view value
+        //but we are interested only in responses that correspond to the current views value
         var onCurrentRequest = inputValue === modelCtrl.$viewValue;
         if (onCurrentRequest && hasFocus) {
           if (matches && matches.length > 0) {
@@ -7226,8 +7226,8 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
 
       scope.debounceUpdate = $parse(ngModelOptions.getOption('debounce'))(originalScope);
 
-      //plug into $parsers pipeline to open a typeahead on view changes initiated from DOM
-      //$parsers kick-in on all the changes coming from the view as well as manually triggered by $setViewValue
+      //plug into $parsers pipeline to open a typeahead on views changes initiated from DOM
+      //$parsers kick-in on all the changes coming from the views as well as manually triggered by $setViewValue
       modelCtrl.$parsers.unshift(function(inputValue) {
         hasFocus = true;
 

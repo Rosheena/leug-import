@@ -4542,9 +4542,9 @@
      * Creates a clone of `dataView`.
      *
      * @private
-     * @param {Object} dataView The data view to clone.
+     * @param {Object} dataView The data views to clone.
      * @param {boolean} [isDeep] Specify a deep clone.
-     * @returns {Object} Returns the cloned data view.
+     * @returns {Object} Returns the cloned data views.
      */
     function cloneDataView(dataView, isDeep) {
       var buffer = isDeep ? cloneArrayBuffer(dataView.buffer) : dataView.buffer;
@@ -6107,14 +6107,14 @@
     }
 
     /**
-     * Gets the view, applying any `transforms` to the `start` and `end` positions.
+     * Gets the views, applying any `transforms` to the `start` and `end` positions.
      *
      * @private
-     * @param {number} start The start of the view.
-     * @param {number} end The end of the view.
-     * @param {Array} transforms The transformations to apply to the view.
+     * @param {number} start The start of the views.
+     * @param {number} end The end of the views.
+     * @param {Array} transforms The transformations to apply to the views.
      * @returns {Object} Returns an object containing the `start` and `end`
-     *  positions of the view.
+     *  positions of the views.
      */
     function getView(start, end, transforms) {
       var index = -1,
@@ -15245,15 +15245,15 @@
      * @returns {Object} Returns `object`.
      * @example
      *
-     * var view = {
+     * var views = {
      *   'label': 'docs',
      *   'click': function() {
      *     console.log('clicked ' + this.label);
      *   }
      * };
      *
-     * _.bindAll(view, ['click']);
-     * jQuery(element).on('click', view.click);
+     * _.bindAll(views, ['click']);
+     * jQuery(element).on('click', views.click);
      * // => Logs 'clicked docs' when clicked.
      */
     var bindAll = flatRest(function(object, methodNames) {
