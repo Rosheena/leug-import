@@ -1,4 +1,4 @@
-LuegImportApp.controller('LoginController', ['$rootScope', '$state', '$q', '$http', 'AuthenticationService', function ($rootScope, $state, $q, $http, AuthenticationService, RolesService) {
+LuegImportApp.controller('LoginController', ['$rootScope', '$state', '$q', '$http', 'AuthenticationService', function ($rootScope, $state, $q, $http, AuthenticationService) {
 
     let vm = this;
 

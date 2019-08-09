@@ -1,6 +1,6 @@
 var LuegImportApp =
     angular
-        .module("LuegImportApp", ['ngRoute', 'ngSanitize', 'ui.bootstrap', 'ngTable', 'angularFileUpload'])
+        .module("LuegImportApp", ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngMessages', 'ui-notification', 'ngTable', 'angularFileUpload'])
         .config(
             function ($httpProvider, $qProvider){
                 $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
