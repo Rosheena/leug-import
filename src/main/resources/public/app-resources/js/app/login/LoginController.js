@@ -16,7 +16,7 @@ LuegImportApp.controller('LoginController', ['$rootScope', '$state', '$q', '$htt
         AuthenticationService.authenticate(vm.username, vm.password)
             .then(
                 function (user) {
-                    $state.go('fileUpload.manage');
+                    $state.go('document-upload.manage');
                 },
                 function (err) {
                     vm.error = err;
