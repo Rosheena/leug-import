@@ -11,13 +11,12 @@ LuegImportApp
             };
 
             $stateProvider
-            $stateProvider
                 .state({
                     name: 'login',
                     url: '/login',
                     controller: 'LoginController',
                     controllerAs: 'loginCtrl',
-                    templateUrl: 'partner/app-resources/views/login/login.html'
+                    templateUrl: 'app-resources/views/login/login.html'
                 })
                 .state({
                     abstract:true,

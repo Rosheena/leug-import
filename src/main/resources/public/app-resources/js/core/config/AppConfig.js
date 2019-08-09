@@ -5,7 +5,7 @@ var LuegImportApp =
             function ($httpProvider, $qProvider){
                 $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
                 $httpProvider.interceptors.push(
-                    function ($q, $location, $templateCache) {
+                    function ($q, $state, $templateCache) {
                         return {
                             'request': function (config) {
                                 if($templateCache.get(config.url)){
@@ -18,7 +18,7 @@ var LuegImportApp =
                             },
                             'responseError': function (rejection) {
                                 if(rejection && rejection.status === 401){
-                                    $location.path('/login')
+                                    $state.go('login');
                                 }
                                 return $q.reject(rejection);
                             }
@@ -31,7 +31,7 @@ var LuegImportApp =
         );
 
 LuegImportApp.run(
-    function ($rootScope, $location, AuthenticationService) {
+    function ($rootScope, $state, AuthenticationService) {
         $rootScope.navigateTo = function (stateName) {
             $state.go(stateName);
         };
