@@ -1,0 +1,16 @@
+<div class="inputDocument">
+	<div ng-hide="inputDocument" class="without-image" ng-click="prepareModalToAddDocument()">
+		Click to Add Image
+	</div>
+
+	<div ng-show="inputDocument" class="with-image">
+		<div class="btn-group" role="group" aria-label="...">
+			<a class="btn btn-default" title="Show full size image" ng-href="{{luegDocument.imageUrl}}" target="_blank">
+                <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>
+			</a>
+		</div>
+		<img ng-src="{{luegDocument.imageUrl}}">
+	</div>
+    <div>{{luegDocument.filename}}</div>
+</div>
+

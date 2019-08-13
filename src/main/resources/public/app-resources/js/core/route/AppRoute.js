@@ -22,21 +22,21 @@ LuegImportApp
                     abstract: true,
                     name: 'document-upload',
                     url: '/document-upload',
-                    templateUrl: 'partner/app-resources/views/document/document-upload/upload-document.html',
+                    templateUrl: 'app-resources/views/document/document-upload/upload-document.html',
                     resolve: authResolver()
                 })
                 .state({
                     name: 'document-upload.manage',
                     url: '/manage',
-                    controller: 'DocumentUploadController',
-                    controllerAs: 'docUploadCtrl',
-                    templateUrl: 'partner/app-resources/views/document/document-upload/upload-document-manage.html'
+                    controller: 'DocumentManageController',
+                    controllerAs: 'docManageCtrl',
+                    templateUrl: 'app-resources/views/document/document-upload/upload-document-manage.html'
                 })
                 .state({
                     abstract: true,
                     name: 'document-view',
                     url: '/document-view',
-                    templateUrl: 'partner/app-resources/views/document/document-view/view-document.html',
+                    templateUrl: 'app-resources/views/document/document-view/view-document.html',
                     resolve: authResolver()
                 })
                 .state({
@@ -44,7 +44,7 @@ LuegImportApp
                     url: '/results',
                     controller: 'DocumentResultsController',
                     controllerAs: 'docResultsCtrl',
-                    templateUrl: 'partner/app-resources/views/document/document-view/view-document-results.html'
+                    templateUrl: 'app-resources/views/document/document-view/view-document-results.html'
                 });
 
             // For any unmatched url, send to login page

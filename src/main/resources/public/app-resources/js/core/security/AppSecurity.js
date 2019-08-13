@@ -4,14 +4,15 @@ LuegImportApp.factory("URLSecurity", ['$q', '$state', 'AuthenticationService', f
             var deferred = $q.defer();
 
             AuthenticationService.validateAuthorization()
-                .then( function () {
+                .then(function () {
                     deferred.resolve();
 
                 }, function () {
-                    deferred.reject()
+                    deferred.reject();
 
-                    $location.path('/login')
+                    $state.path('/login');
                 });
+
             return deferred.promise;
         }
     };

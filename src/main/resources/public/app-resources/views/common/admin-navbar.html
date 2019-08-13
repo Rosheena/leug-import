@@ -6,9 +6,23 @@
 
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-
 				<li ui-sref-active="{'active': 'document-upload.**'}"><a ui-sref="document-upload.manage">Document Upload</a></li>
 				<li ui-sref-active="{'active': 'document-view.**'}"><a ui-sref="document-view.results">Processed Documents Viewer</a></li>
-		</ul>
+			</ul>
+		</div>
+
+		<div class="navbar-right navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class = "text-right">
+					<button class="btn btn-default" ng-click="navigateTo('login')">
+						<span class="glyphicon glyphicon-off"></span>
+						{{ userCtrl.getUserDisplayName() }}
+					</button>
+				</li>
+			</ul>
+
+		</div>
+
+
 	</div>
 </nav>
