@@ -1,4 +1,4 @@
-FlightApp.service('PromptService', function ($q, $uibModal) {
+LuegImportApp.service('PromptService', function ($q, $uibModal) {
    this.prompt = function (title, message, windowClass, controls) {
        $uibModal.open({
            templateUrl: 'app-resources/views/common/PromptMessageModal.html',
@@ -44,7 +44,7 @@ FlightApp.service('PromptService', function ($q, $uibModal) {
     };
 });
 
-FlightApp.controller('PromptServiceModalController', function ($scope, $uibModalInstance, $uibModalParams, $sce) {
+LuegImportApp.controller('PromptServiceModalController', function ($scope, $uibModalInstance, $uibModalParams, $sce) {
     $scope.init = function () {
         $scope.title = $sce.trustAsHtml($uibModalParams.title);
         $scope.message = $sce.trustAsHtml($uibModalParams.message);
