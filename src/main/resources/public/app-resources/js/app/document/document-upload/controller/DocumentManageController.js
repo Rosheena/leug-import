@@ -1,4 +1,4 @@
-LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', 'Notification', 'SpinnerService', 'PromptService', 'StorageService', function (DocumentUploadService, Notification, SpinnerService, PromptService, StorageService, $scope) {
+LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', 'Notification', 'SpinnerService', 'PromptService', 'StorageService', function (DocumentUploadService, Notification, SpinnerService) {
 
     let vm = this;
     vm.uploader = null;
@@ -36,6 +36,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
         } else {
             vm.uploadingResults = response;
         }
+        SpinnerService.stop();
         vm.uploadingResults = response;
         vm.display_view = display;
         vm.clearFile();

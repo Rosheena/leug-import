@@ -1,6 +1,5 @@
 package com.perspecta.luegimport.business.web.file_import;
 
-import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.FileImportService;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
@@ -12,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@RequestMapping(value = "/file")
+@RequestMapping(value = "/lueg/document")
 public class FileImportController {
 
 	private final FileImportService fileImportService;
 
 	@PostMapping("/validate")
-	public DocumentView validateFile(@RequestParam String userName, @RequestParam MultipartFile file){
+	public DocumentView validateFile(@RequestParam MultipartFile file){
+		String userName = "rk@wheelsup.com";
 		return fileImportService.validate(userName, file);
 	}
 

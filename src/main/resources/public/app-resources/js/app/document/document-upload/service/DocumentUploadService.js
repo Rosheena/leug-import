@@ -2,11 +2,13 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
 
     var ACCEPTED_FILE_TYPES = ['csv', 'text/csv'];
 
+
     this.uploader = null;
 
+    //payload.append("userName", "rk@wheelsup.com");
     this.initUploader = function(afterUploadCompleteCallback, addingFileCallback){
         let uploader = new FileUploader({
-            url: '/app/partner/gama/upload',
+            url: 'api/lueg/document/validate',
             headers: {
                 Authorization: StorageService.getItem("AUTHORIZATION")
             },
@@ -49,9 +51,6 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
         };
 
         uploader.onAfterAddingFile = function (fileItem) {
-            console.log("Adding file")
-            console.log(fileItem);
-            console.log(fileItem.file);
             addingFileCallback(fileItem.file);
         }
 
@@ -59,7 +58,7 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
             SpinnerService.stop();
 
             if (status !== 200) {
-                console.error(response);
+                console.log(response);
                 afterUploadCompleteCallback('There was an error uploading the file', null, "selector");
             } else {
                 afterUploadCompleteCallback(null, response, "result");
