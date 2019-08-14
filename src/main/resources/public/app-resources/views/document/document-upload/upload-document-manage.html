@@ -11,7 +11,7 @@
 						<div ng-show="docManageCtrl.uploader.isHTML5">
 							<div class="well upload-drop-box text-center" nv-file-over uploader="docManageCtrl.uploader" over-class="upload-drop-box-file-over" ng-class="{ 'upload-drop-box-file-added' : (docManageCtrl.file !== null) }" nv-file-select>
 								<br/>
-								<div ng-show="docManageCtrl.file === null"><button ng-click="docManageCtrl.openFileDialog();" class="btn btn-link">Drop or click to select an Excel file</button></div>
+								<div ng-show="docManageCtrl.file === null"><button ng-click="docManageCtrl.openFileDialog();" class="btn btn-link">Drop or click to select a csv file</button></div>
 								<div ng-show="docManageCtrl.file !== null"><strong>{{ docManageCtrl.file.name }}</strong></div>
 							</div>
 						</div>
