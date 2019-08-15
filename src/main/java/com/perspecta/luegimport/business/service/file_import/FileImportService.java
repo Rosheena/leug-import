@@ -15,12 +15,13 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.io.InputStream;
 import java.util.*;
 
 @Service
 @Slf4j
+@Transactional
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FileImportService {
 
@@ -51,19 +52,18 @@ public class FileImportService {
 
 		if(MapUtils.isNotEmpty(failedValidations)){
 			documentView.setFailedValidations(failedValidations);
+			failedValidations.values().forEach(documentWrappers -> {
+				documentWrappers.forEach(documentWrapper -> documentRepository.save(documentWrapper.getDocument()));
+				documentWrapperRepository.saveAll(documentWrappers);
+			});
 		}
 
 		if(CollectionUtils.isNotEmpty(successValidations)){
 			documentView.setSuccessValidations(successValidations);
+			successValidations.forEach(documentWrapper -> documentRepository.save(documentWrapper.getDocument()));
+			documentWrapperRepository.saveAll(successValidations);
 		}
 
-		/*if(CollectionUtils.isNotEmpty(successValidations)){
-			successValidations.forEach(documentWrapper -> {
-				documentRepository.save(documentWrapper.getDocument());
-				documentWrapperRepository.save(documentWrapper);
-			});
-		}
-*/
 		return documentView;
 	}
 
