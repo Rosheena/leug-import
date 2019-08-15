@@ -35,7 +35,7 @@ public class DocumentCsvExtractor {
 
 		log.info("Extracting rows");
 
-		Map<UUID, DocumentWrapper> documentWrapperMap = new HashMap<>();
+		Map<String, DocumentWrapper> documentWrapperMap = new HashMap<>();
 
 		try {
 			Long totalRows = 0L;
@@ -43,13 +43,15 @@ public class DocumentCsvExtractor {
 
 			MappingIterator<DocumentCsvRow> iterator = READER.readValues(csvInputStream);
 
+			UUID batchId = UUID.randomUUID();
+
 			while (iterator.hasNext()) {
 				try {
 					DocumentCsvRow csvRow = iterator.next();
 
-					DocumentWrapper documentWrapper = this.readDocument(csvRow);
+					DocumentWrapper documentWrapper = this.readDocument(csvRow, batchId);
 
-					documentWrapperMap.put(documentWrapper.getBatchId(), documentWrapper);
+					documentWrapperMap.put(documentWrapper.getDocument().getCpId(), documentWrapper);
 
 					totalRows++;
 					successfulRows++;
@@ -68,7 +70,7 @@ public class DocumentCsvExtractor {
 		return new ArrayList<>(documentWrapperMap.values());
 	}
 
-	private DocumentWrapper readDocument(DocumentCsvRow row){
+	private DocumentWrapper readDocument(DocumentCsvRow row, UUID batchId){
 		DocumentWrapper documentWrapper = new DocumentWrapper();
 		Document document = new Document();
 
@@ -97,7 +99,7 @@ public class DocumentCsvExtractor {
 		}
 
 		documentWrapper.setDocument(document);
-		documentWrapper.setBatchId(UUID.randomUUID());
+		documentWrapper.setBatchId(batchId);
 
 		return documentWrapper;
 	}

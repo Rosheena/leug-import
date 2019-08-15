@@ -70,19 +70,20 @@ public class FileImportDelegate {
 					if(!new File(documentWrapper.getDocument().getFileLocation()).isFile()){
 						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.INVALID_PATH))) {
 							failedValidations.get(DocumentErrorTypes.INVALID_PATH).add(documentWrapper);
+							successValidations.remove(documentWrapper);
 						} else {
 							failedValidations.put(DocumentErrorTypes.INVALID_PATH, new ArrayList<>(Arrays.asList(documentWrapper)));
+
 						}
-					} else {
-						successValidations.add(documentWrapper);
+						successValidations.remove(documentWrapper);
 					}
 				});
 	}
 
-	public void existingDocumentCheck(String userName, List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+	public void existingDocumentCheck(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
 
 		// validate with the local database if the cpId exists
-		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findByUserNameEquals(userName);
+		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findAll();
 
 		if (CollectionUtils.isNotEmpty(userExistingDocuments)) {
 			documentWrapperList.stream()
@@ -97,8 +98,7 @@ public class FileImportDelegate {
 							} else {
 								failedValidations.put(DocumentErrorTypes.DUPLICATE, new ArrayList<>(Arrays.asList(documentWrapper)));
 							}
-						} else {
-							successValidations.add(documentWrapper);
+							successValidations.remove(documentWrapper);
 						}
 					});
 		}

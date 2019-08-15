@@ -7,6 +7,7 @@ import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.delegate.FileImportDelegate;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentErrorTypes;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
+import com.perspecta.luegimport.business.service.file_import.util.DocumentCsvExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,6 +15,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -22,15 +25,16 @@ import java.util.*;
 public class FileImportService {
 
 	private final FileImportDelegate fileImportDelegate;
+	private final DocumentCsvExtractor documentCsvExtractor;
 	private final DocumentWrapperRepository documentWrapperRepository;
 	private final DocumentRepository documentRepository;
 
-	public DocumentView process(String userName, MultipartFile file){
+	public DocumentView process(InputStream csvInputStream){
 		DocumentView documentView = new DocumentView();
 		List<DocumentWrapper> successValidations = new ArrayList<>();
 		Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations = new HashMap<>();
 		// parse file
-		List<DocumentWrapper> documentWrapperList = fileImportDelegate.parseFile(userName, file);
+		List<DocumentWrapper> documentWrapperList = documentCsvExtractor.extract(csvInputStream);
 
 		if(CollectionUtils.isNotEmpty(documentWrapperList)){
 			// validate file fields
@@ -40,7 +44,7 @@ public class FileImportService {
 			fileImportDelegate.checkFilePath(documentWrapperList, successValidations, failedValidations);
 
 			// validate to check if document is a duplicate
-			fileImportDelegate.existingDocumentCheck(userName, documentWrapperList, successValidations, failedValidations);
+			fileImportDelegate.existingDocumentCheck(documentWrapperList, successValidations, failedValidations);
 
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
