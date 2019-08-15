@@ -11,8 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -36,20 +35,37 @@ public class DocumentCsvExtractor {
 
 		log.info("Extracting rows");
 
-		long totalRows = 0L;
-		long successfulRows = 0L;
+		Map<UUID, DocumentWrapper> documentWrapperMap = new HashMap<>();
 
-		try{
+		try {
+			Long totalRows = 0L;
+			Long successfulRows = 0L;
+
 			MappingIterator<DocumentCsvRow> iterator = READER.readValues(csvInputStream);
 
 			while (iterator.hasNext()) {
-				DocumentCsvRow csvRow = iterator.next();
+				try {
+					DocumentCsvRow csvRow = iterator.next();
 
+					DocumentWrapper documentWrapper = this.readDocument(csvRow);
+
+					documentWrapperMap.put(documentWrapper.getBatchId(), documentWrapper);
+
+					totalRows++;
+					successfulRows++;
+				} catch (Throwable throwable) {
+					log.warn(String.format("Row [%d] will be skipped - %s", totalRows, throwable.getMessage()));
+					totalRows++;
+				}
 			}
-		} catch (Throwable throwable){
-			log.warn(String.format("Row [%d] will be skipped - %s", totalRows, throwable.getMessage()));
+
+			log.info(String.format("%d/%d rows extracted successfully", successfulRows, totalRows));
+
+		} catch (Throwable throwable) {
+			log.error("Error while extracting rows", throwable);
 		}
 
+		return new ArrayList<>(documentWrapperMap.values());
 	}
 
 	private DocumentWrapper readDocument(DocumentCsvRow row){
