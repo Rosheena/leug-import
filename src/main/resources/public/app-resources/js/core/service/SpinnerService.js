@@ -7,6 +7,7 @@ LuegImportApp.service('SpinnerService',
         };
 
         this.stop = function (index){
-            $('spinner').remove();
+            console.log("trying to remove")
+            $('div').remove(".spinner");
         };
     });

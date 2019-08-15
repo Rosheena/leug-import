@@ -36,7 +36,6 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
         } else {
             vm.uploadingResults = response;
         }
-        SpinnerService.stop();
         vm.uploadingResults = response;
         vm.display_view = display;
         vm.clearFile();

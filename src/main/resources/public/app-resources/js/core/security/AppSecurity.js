@@ -9,8 +9,7 @@ LuegImportApp.factory("URLSecurity", ['$q', '$state', 'AuthenticationService', f
 
                 }, function () {
                     deferred.reject();
-
-                    $state.path('/login');
+                    $state.go('/login');
                 });
 
             return deferred.promise;

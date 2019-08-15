@@ -8,11 +8,10 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
     //payload.append("userName", "rk@wheelsup.com");
     this.initUploader = function(afterUploadCompleteCallback, addingFileCallback){
         let uploader = new FileUploader({
-            url: 'api/lueg/document/validate',
+            url: 'app/lueg/document/validate',
             headers: {
                 Authorization: StorageService.getItem("AUTHORIZATION")
             },
-            queueLimit: 1
         });
 
         uploader.filters.push({
@@ -61,6 +60,8 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
                 console.log(response);
                 afterUploadCompleteCallback('There was an error uploading the file', null, "selector");
             } else {
+                console.log("200 response");
+                console.log(response);
                 afterUploadCompleteCallback(null, response, "result");
             }
 

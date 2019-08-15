@@ -4,6 +4,7 @@ import com.perspecta.luegimport.business.domain.document.Document;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -22,5 +23,5 @@ public class DocumentWrapper {
 	private Boolean isProcessed;
 	private Boolean isFailed;
 
-	private String userName;
+	private UUID batchId;
 }

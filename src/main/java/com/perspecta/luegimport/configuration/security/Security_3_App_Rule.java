@@ -3,6 +3,8 @@ package com.perspecta.luegimport.configuration.security;
 import com.perspecta.luegimport.business.service.security.LoginUserService;
 import com.perspecta.luegimport.business.service.security.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Configuration
+@Order(3)
 public class Security_3_App_Rule extends WebSecurityConfigurerAdapter {
 	private final LoginUserService loginUserService;
 
@@ -42,6 +46,8 @@ public class Security_3_App_Rule extends WebSecurityConfigurerAdapter {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(loginUserService);
 		authProvider.setPasswordEncoder(passwordEncoder());
+		authProvider.setHideUserNotFoundExceptions(false);
+
 		return authProvider;
 	}
 

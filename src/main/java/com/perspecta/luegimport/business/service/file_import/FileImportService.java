@@ -25,7 +25,7 @@ public class FileImportService {
 	private final DocumentWrapperRepository documentWrapperRepository;
 	private final DocumentRepository documentRepository;
 
-	public DocumentView validate(String userName, MultipartFile file){
+	public DocumentView process(String userName, MultipartFile file){
 		DocumentView documentView = new DocumentView();
 		List<DocumentWrapper> successValidations = new ArrayList<>();
 		Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations = new HashMap<>();

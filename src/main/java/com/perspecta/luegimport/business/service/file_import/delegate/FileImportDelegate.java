@@ -134,7 +134,6 @@ public class FileImportDelegate {
 		}
 
 		documentWrapper.setDocument(document);
-		documentWrapper.setUserName(userName);
 
 		return documentWrapper;
 	}

@@ -21,7 +21,7 @@ public class FileImportController {
 	@PostMapping("/validate")
 	public DocumentView validateFile(@RequestParam MultipartFile file){
 		String userName = "rk@wheelsup.com";
-		return fileImportService.validate(userName, file);
+		return fileImportService.process(userName, file);
 	}
 
 	@PostMapping("/process")

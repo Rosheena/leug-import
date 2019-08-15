@@ -48,8 +48,7 @@ spring:
 
 server:
   port: 9005
-  servlet:
-    conext-path: /
+
 
 logging:
   level:

@@ -9,7 +9,6 @@ var LuegImportApp =
                         return {
                             'request': function (config) {
                                 if($templateCache.get(config.url)){
-
                                     return config;
                                 }
 
@@ -45,3 +44,14 @@ LuegImportApp.run(
         AuthenticationService.setupAuthorization();
     }
 );
+
+/**
+ @param {function(T, number, obj): boolean} predicate
+ @param value
+ */
+Array.prototype.replace = function (predicate, value) {
+    let index = this.findIndex(predicate);
+    if (index >= 0) {
+        this[index] = value;
+    }
+};
