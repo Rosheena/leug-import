@@ -1,9 +1,11 @@
 package com.perspecta.luegimport.business.service.file_import.delegate;
 
 import com.perspecta.luegimport.business.domain.document.Document;
+import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentErrorTypes;
+import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -26,10 +28,12 @@ public class FileImportDelegate {
 
 	private final static String DOCUMENT_LOCATION = "C:\\Records\\DEH";
 
+	private final DocumentRepository documentRepository;
 	private final DocumentWrapperRepository documentWrapperRepository;
 
 	@Autowired
-	public FileImportDelegate(DocumentWrapperRepository documentWrapperRepository) {
+	public FileImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository) {
+		this.documentRepository = documentRepository;
 		this.documentWrapperRepository = documentWrapperRepository;
 	}
 
@@ -107,6 +111,48 @@ public class FileImportDelegate {
 							successValidations.remove(documentWrapper);
 						}
 					});
+		}
+	}
+
+	public void persistValidations(DocumentView documentView, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations){
+
+		if(MapUtils.isNotEmpty(failedValidations)){
+			failedValidations.entrySet().forEach(failedValidation -> {
+				if(!failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_INPROGRESS)
+						&& !failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_PROCESSED)){
+					failedValidation.getValue().forEach(documentWrapper -> {
+						Optional.ofNullable(documentWrapper.getDocument())
+								.ifPresent(document -> {
+									Document existingDocument = documentRepository.findByCpId(document.getCpId());
+									if(existingDocument!=null){
+										document.setId(existingDocument.getId());
+										documentRepository.save(document);
+										DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
+										documentWrapper.setId(existingDocumentWrapper.getId());
+									}
+								});
+					});
+					documentWrapperRepository.saveAll(failedValidation.getValue());
+				}
+			});
+			documentView.setFailedValidations(failedValidations);
+		}
+
+		if(CollectionUtils.isNotEmpty(successValidations)){
+			successValidations.forEach(documentWrapper -> {
+				Optional.ofNullable(documentWrapper.getDocument())
+						.ifPresent(document -> {
+							Document existingDocument = documentRepository.findByCpId(document.getCpId());
+							if(existingDocument!=null){
+								document.setId(existingDocument.getId());
+								documentRepository.save(document);
+								DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
+								documentWrapper.setId(existingDocumentWrapper.getId());
+							}
+						});
+			});
+			documentWrapperRepository.saveAll(successValidations);
+			documentView.setSuccessValidations(successValidations);
 		}
 	}
 

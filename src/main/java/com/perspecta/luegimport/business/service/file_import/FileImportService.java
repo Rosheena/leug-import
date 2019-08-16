@@ -51,33 +51,7 @@ public class FileImportService {
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
 
-		if(MapUtils.isNotEmpty(failedValidations)){
-			documentView.setFailedValidations(failedValidations);
-			failedValidations.entrySet().forEach(failedValidation -> {
-				if(!failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_INPROGRESS)
-						&& !failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_PROCESSED)){
-					failedValidation.getValue().forEach(documentWrapper -> {
-						Optional.ofNullable(documentWrapper.getDocument())
-								.ifPresent(document -> {
-									Document existingDocument = documentRepository.findByCpId(document.getCpId());
-									if(existingDocument!=null){
-										document.setId(existingDocument.getId());
-										documentRepository.save(document);
-										DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
-										documentWrapper.setId(existingDocumentWrapper.getId());
-									}
-								});
-					});
-					documentWrapperRepository.saveAll(failedValidation.getValue());
-				}
-			});
-		}
-
-		if(CollectionUtils.isNotEmpty(successValidations)){
-			documentView.setSuccessValidations(successValidations);
-			successValidations.forEach(documentWrapper -> documentRepository.save(documentWrapper.getDocument()));
-			documentWrapperRepository.saveAll(successValidations);
-		}
+		fileImportDelegate.persistValidations(successValidations, failedValidations);
 
 		return documentView;
 	}
