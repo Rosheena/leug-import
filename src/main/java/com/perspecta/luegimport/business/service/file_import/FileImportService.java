@@ -51,7 +51,7 @@ public class FileImportService {
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
 
-		fileImportDelegate.persistValidations(successValidations, failedValidations);
+		fileImportDelegate.persistValidations(documentView, successValidations, failedValidations);
 
 		return documentView;
 	}
