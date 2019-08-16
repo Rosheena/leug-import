@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface DocumentWrapperRepository extends JpaRepository<DocumentWrapper, Long> {
 	List<DocumentWrapper> findByBatchId(UUID batchId);
+
+	DocumentWrapper findByDocument_Id(Long id);
 }

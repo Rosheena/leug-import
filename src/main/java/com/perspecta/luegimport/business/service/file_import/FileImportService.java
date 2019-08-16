@@ -1,5 +1,6 @@
 package com.perspecta.luegimport.business.service.file_import;
 
+import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
@@ -52,9 +53,23 @@ public class FileImportService {
 
 		if(MapUtils.isNotEmpty(failedValidations)){
 			documentView.setFailedValidations(failedValidations);
-			failedValidations.values().forEach(documentWrappers -> {
-				documentWrappers.forEach(documentWrapper -> documentRepository.save(documentWrapper.getDocument()));
-				documentWrapperRepository.saveAll(documentWrappers);
+			failedValidations.entrySet().forEach(failedValidation -> {
+				if(!failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_INPROGRESS)
+						&& !failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_PROCESSED)){
+					failedValidation.getValue().forEach(documentWrapper -> {
+						Optional.ofNullable(documentWrapper.getDocument())
+								.ifPresent(document -> {
+									Document existingDocument = documentRepository.findByCpId(document.getCpId());
+									if(existingDocument!=null){
+										document.setId(existingDocument.getId());
+										documentRepository.save(document);
+										DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
+										documentWrapper.setId(existingDocumentWrapper.getId());
+									}
+								});
+					});
+					documentWrapperRepository.saveAll(failedValidation.getValue());
+				}
 			});
 		}
 

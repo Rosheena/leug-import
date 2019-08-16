@@ -22,10 +22,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FileImportDelegate {
 
+	private final static String DOCUMENT_LOCATION = "C:\\Records\\DEH";
+
 	private final DocumentWrapperRepository documentWrapperRepository;
+
+	@Autowired
+	public FileImportDelegate(DocumentWrapperRepository documentWrapperRepository) {
+		this.documentWrapperRepository = documentWrapperRepository;
+	}
 
 	public List<DocumentWrapper> parseFile(String userName, MultipartFile file) {
 
@@ -50,14 +56,14 @@ public class FileImportDelegate {
 					if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())
 							|| StringUtils.isBlank(documentWrapper.getDocument().getFileLocation())
 							|| StringUtils.isBlank(documentWrapper.getDocument().getCpId())) {
-						documentWrapper.setIsValidated(false);
+						documentWrapper.setValidated(false);
 						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.MISSING_FIELD))) {
 							failedValidations.get(DocumentErrorTypes.MISSING_FIELD).add(documentWrapper);
 						} else {
 							failedValidations.put(DocumentErrorTypes.MISSING_FIELD, new ArrayList<>(Arrays.asList(documentWrapper)));
 						}
 					} else {
-						documentWrapper.setIsValidated(true);
+						documentWrapper.setValidated(true);
 						successValidations.add(documentWrapper);
 					}
 				});
@@ -65,9 +71,9 @@ public class FileImportDelegate {
 
 	public void checkFilePath(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations){
 		documentWrapperList.stream()
-				.filter(documentWrapper -> documentWrapper.getIsValidated())
+				.filter(documentWrapper -> documentWrapper.getValidated())
 				.forEach(documentWrapper -> {
-					if(!new File(documentWrapper.getDocument().getFileLocation()).isFile()){
+					if(!new File(DOCUMENT_LOCATION+documentWrapper.getDocument().getFileLocation()).isFile()){
 						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.INVALID_PATH))) {
 							failedValidations.get(DocumentErrorTypes.INVALID_PATH).add(documentWrapper);
 							successValidations.remove(documentWrapper);
@@ -87,7 +93,7 @@ public class FileImportDelegate {
 
 		if (CollectionUtils.isNotEmpty(userExistingDocuments)) {
 			documentWrapperList.stream()
-					.filter(documentWrapper -> documentWrapper.getIsValidated())
+					.filter(documentWrapper -> documentWrapper.getValidated())
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)

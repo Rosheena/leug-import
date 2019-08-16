@@ -19,9 +19,9 @@ public class DocumentWrapper {
 	@JoinColumn(name = "documentId")
 	private Document document;
 
-	private Boolean isValidated;
-	private Boolean isProcessed;
-	private Boolean isFailed;
+	private Boolean validated;
+	private Boolean locked;
+	private Boolean processed;
 
 	private UUID batchId;
 }
