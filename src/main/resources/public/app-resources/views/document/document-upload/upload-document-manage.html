@@ -55,7 +55,7 @@
 
 			<table ng-table="docManageCtrl.tableParams" ng-show="docManageCtrl.uploadingResults.length > 0" class="table table-condensed table-bordered table-striped pilot-table" show-filter="true">
 				<tr ng-repeat="validationResult in $data track by validationResult.id">
-					<td title="'Cp_Id'" sortable="'document.cpId'" class="text-center">
+					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.cpId }}
 						</div>
@@ -67,7 +67,7 @@
 						</div>
 					</td>
 
-					<td title="'Object Name'" sortable="'document.objectName'" class="text-center">
+					<td title="'Object Name'" filter="{'document.objectName': 'text'}" sortable="'document.objectName'" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.objectName }}
 						</div>
@@ -79,7 +79,7 @@
 						</div>
 					</td>
 
-					<td title="'Object Type'" sortable="'document.objectType'" class="text-center">
+					<td title="'Object Type'" filter="{'document.objectType': 'text'}" sortable="'document.objectType'" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.objectType }}
 						</div>
@@ -114,6 +114,8 @@
 							</div>
 						</div>
 					</td>
+
+
 
 				</tr>
 
