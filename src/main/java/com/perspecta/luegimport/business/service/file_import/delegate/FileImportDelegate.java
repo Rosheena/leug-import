@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,7 +59,6 @@ public class FileImportDelegate {
 		documentWrapperList
 				.forEach(documentWrapper -> {
 					if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())
-							|| StringUtils.isBlank(documentWrapper.getDocument().getFileLocation())
 							|| StringUtils.isBlank(documentWrapper.getDocument().getCpId())) {
 						documentWrapper.setValidated(false);
 						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.MISSING_FIELD))) {
@@ -80,11 +80,11 @@ public class FileImportDelegate {
 					if(!new File(DOCUMENT_LOCATION+documentWrapper.getDocument().getFileLocation()).isFile()){
 						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.INVALID_PATH))) {
 							failedValidations.get(DocumentErrorTypes.INVALID_PATH).add(documentWrapper);
-							successValidations.remove(documentWrapper);
 						} else {
 							failedValidations.put(DocumentErrorTypes.INVALID_PATH, new ArrayList<>(Arrays.asList(documentWrapper)));
 
 						}
+						documentWrapper.setValidated(false);
 						successValidations.remove(documentWrapper);
 					}
 				});
@@ -101,13 +101,33 @@ public class FileImportDelegate {
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)
-								.anyMatch(document -> document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId()));
+								.anyMatch(document -> (document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
+											&& BooleanUtils.isTrue(documentWrapper.getLocked())));
 						if (documentExists) {
-							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE))) {
-								failedValidations.get(DocumentErrorTypes.DUPLICATE).add(documentWrapper);
+							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE_INPROGRESS))) {
+								failedValidations.get(DocumentErrorTypes.DUPLICATE_INPROGRESS).add(documentWrapper);
 							} else {
-								failedValidations.put(DocumentErrorTypes.DUPLICATE, new ArrayList<>(Arrays.asList(documentWrapper)));
+								failedValidations.put(DocumentErrorTypes.DUPLICATE_INPROGRESS, new ArrayList<>(Arrays.asList(documentWrapper)));
 							}
+							documentWrapper.setValidated(false);
+							successValidations.remove(documentWrapper);
+						}
+					});
+
+			documentWrapperList.stream()
+					.filter(documentWrapper -> documentWrapper.getValidated())
+					.forEach(documentWrapper -> {
+						boolean documentExists = userExistingDocuments.stream()
+								.map(DocumentWrapper::getDocument)
+								.anyMatch(document -> (document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
+										&& BooleanUtils.isTrue(documentWrapper.getProcessed())));
+						if (documentExists) {
+							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE_PROCESSED))) {
+								failedValidations.get(DocumentErrorTypes.DUPLICATE_PROCESSED).add(documentWrapper);
+							} else {
+								failedValidations.put(DocumentErrorTypes.DUPLICATE_PROCESSED, new ArrayList<>(Arrays.asList(documentWrapper)));
+							}
+							documentWrapper.setValidated(false);
 							successValidations.remove(documentWrapper);
 						}
 					});
@@ -148,6 +168,8 @@ public class FileImportDelegate {
 								documentRepository.save(document);
 								DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
 								documentWrapper.setId(existingDocumentWrapper.getId());
+							} else {
+								documentRepository.save(document);
 							}
 						});
 			});

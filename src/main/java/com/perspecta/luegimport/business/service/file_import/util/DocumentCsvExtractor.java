@@ -24,6 +24,7 @@ public class DocumentCsvExtractor {
 									.setSkipFirstDataRow(Boolean.TRUE)
 									.addColumn("lueg_object_type")
 									.addColumn("Object_name")
+									.addColumn("link_path")
 									.addColumn("content_file")
 									.addColumn("cp_id")
 									.addColumn("lueg_subtype")
@@ -43,13 +44,11 @@ public class DocumentCsvExtractor {
 
 			MappingIterator<DocumentCsvRow> iterator = READER.readValues(csvInputStream);
 
-			UUID batchId = UUID.randomUUID();
-
 			while (iterator.hasNext()) {
 				try {
 					DocumentCsvRow csvRow = iterator.next();
 
-					DocumentWrapper documentWrapper = this.readDocument(csvRow, batchId);
+					DocumentWrapper documentWrapper = this.readDocument(csvRow);
 
 					documentWrapperMap.put(documentWrapper.getDocument().getCpId(), documentWrapper);
 
@@ -70,7 +69,7 @@ public class DocumentCsvExtractor {
 		return new ArrayList<>(documentWrapperMap.values());
 	}
 
-	private DocumentWrapper readDocument(DocumentCsvRow row, UUID batchId){
+	private DocumentWrapper readDocument(DocumentCsvRow row){
 		DocumentWrapper documentWrapper = new DocumentWrapper();
 		Document document = new Document();
 
@@ -99,8 +98,6 @@ public class DocumentCsvExtractor {
 		}
 
 		documentWrapper.setDocument(document);
-		documentWrapper.setBatchId(batchId);
-
 		return documentWrapper;
 	}
 }

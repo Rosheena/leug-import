@@ -26,6 +26,7 @@ spring:
     # the project
     hibernate:
       ddl-auto: none
+      use-new-id-generator-mappings: false
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 

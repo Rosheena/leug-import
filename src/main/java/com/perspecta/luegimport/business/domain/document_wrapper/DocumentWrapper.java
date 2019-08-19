@@ -22,6 +22,4 @@ public class DocumentWrapper {
 	private Boolean validated;
 	private Boolean locked;
 	private Boolean processed;
-
-	private UUID batchId;
 }

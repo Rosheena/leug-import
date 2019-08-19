@@ -43,7 +43,7 @@ public class FileImportService {
 			fileImportDelegate.validateFields(documentWrapperList, successValidations, failedValidations);
 
 			// check if file location is valid
-			fileImportDelegate.checkFilePath(documentWrapperList, successValidations, failedValidations);
+//			fileImportDelegate.checkFilePath(documentWrapperList, successValidations, failedValidations);
 
 			// validate to check if document is a duplicate
 			fileImportDelegate.existingDocumentCheck(documentWrapperList, successValidations, failedValidations);

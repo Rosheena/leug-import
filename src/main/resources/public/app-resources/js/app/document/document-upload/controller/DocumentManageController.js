@@ -1,4 +1,4 @@
-LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', 'Notification', 'SpinnerService', 'PromptService', 'StorageService', function (DocumentUploadService, Notification, SpinnerService) {
+LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', 'Notification', 'SpinnerService', 'PromptService', 'StorageService', 'NgTableParams', function (DocumentUploadService, Notification, SpinnerService, PromptService, StorageService, NgTableParams) {
 
     let vm = this;
     vm.uploader = null;
@@ -34,11 +34,16 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             vm.clearFile();
             handleError(err, "Errors while uploading file");
         } else {
-            vm.uploadingResults = response;
+            vm.uploadingResults = response.successValidations;
+            console.log("Results");
+            console.log(vm.uploadingResults);
+            vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
+            vm.fileName = vm.file.name;
         }
-        vm.uploadingResults = response;
-        vm.display_view = display;
+
         vm.clearFile();
+        vm.display_view = display;
+
     };
 
     vm.initializeUploader = function () {

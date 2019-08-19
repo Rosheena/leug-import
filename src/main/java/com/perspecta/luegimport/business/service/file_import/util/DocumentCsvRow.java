@@ -16,6 +16,9 @@ public class DocumentCsvRow {
 	@JsonProperty("Object_name")
 	private String objectName;
 
+	@JsonProperty("link_path")
+	private String linkPath;
+
 	@JsonProperty("content_file")
 	private String fileLocation;
 
