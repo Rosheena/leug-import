@@ -1,10 +1,10 @@
 package com.perspecta.luegimport.business.domain.document_wrapper;
 
+import com.perspecta.luegimport.business.common.constants.DocumentErrorType;
 import com.perspecta.luegimport.business.domain.document.Document;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -18,6 +18,9 @@ public class DocumentWrapper {
 	@OneToOne
 	@JoinColumn(name = "documentId")
 	private Document document;
+
+	@Enumerated(EnumType.STRING)
+	private DocumentErrorType documentErrorType;
 
 	private Boolean validated;
 	private Boolean locked;

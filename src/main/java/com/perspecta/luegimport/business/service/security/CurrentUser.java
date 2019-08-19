@@ -1,6 +1,6 @@
 package com.perspecta.luegimport.business.service.security;
 
-import com.perspecta.luegimport.business.common.error.delegate.ErrorDelegate;
+import com.perspecta.luegimport.business.common.delegate.ErrorDelegate;
 import com.perspecta.luegimport.business.domain.user.User;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.access.expression.SecurityExpressionOperations;

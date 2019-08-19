@@ -1,13 +1,20 @@
 package com.perspecta.luegimport.business.service.file_import.dto;
 
-import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
-import java.util.Map;
-
-@Data
+@Getter
+@Setter
+@Builder
 public class DocumentView {
-	private List<DocumentWrapper> successValidations;
-	private Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations;
+
+	private Long id;
+
+	private String objectType;
+	private String objectName;
+	private String fileLocation;
+	private String cpId;
+	private String subType;
+	private String year;
 }

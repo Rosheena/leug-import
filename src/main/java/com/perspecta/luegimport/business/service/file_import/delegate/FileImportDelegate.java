@@ -1,15 +1,12 @@
 package com.perspecta.luegimport.business.service.file_import.delegate;
 
+import com.perspecta.luegimport.business.common.constants.DocumentErrorType;
 import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
-import com.perspecta.luegimport.business.service.file_import.dto.DocumentErrorTypes;
-import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,43 +51,32 @@ public class FileImportDelegate {
 		return documentWrapperList;
 	}
 
-	public void validateFields(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+	public void validateFields(List<DocumentWrapper> documentWrapperList) {
 		// validate the list for empty fields
 		documentWrapperList
 				.forEach(documentWrapper -> {
 					if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())
 							|| StringUtils.isBlank(documentWrapper.getDocument().getCpId())) {
 						documentWrapper.setValidated(false);
-						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.MISSING_FIELD))) {
-							failedValidations.get(DocumentErrorTypes.MISSING_FIELD).add(documentWrapper);
-						} else {
-							failedValidations.put(DocumentErrorTypes.MISSING_FIELD, new ArrayList<>(Arrays.asList(documentWrapper)));
-						}
+						documentWrapper.setDocumentErrorType(DocumentErrorType.MISSING_FIELD);
 					} else {
 						documentWrapper.setValidated(true);
-						successValidations.add(documentWrapper);
 					}
 				});
 	}
 
-	public void checkFilePath(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations){
+	public void checkFilePath(List<DocumentWrapper> documentWrapperList){
 		documentWrapperList.stream()
 				.filter(documentWrapper -> documentWrapper.getValidated())
 				.forEach(documentWrapper -> {
 					if(!new File(DOCUMENT_LOCATION+documentWrapper.getDocument().getFileLocation()).isFile()){
-						if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.INVALID_PATH))) {
-							failedValidations.get(DocumentErrorTypes.INVALID_PATH).add(documentWrapper);
-						} else {
-							failedValidations.put(DocumentErrorTypes.INVALID_PATH, new ArrayList<>(Arrays.asList(documentWrapper)));
-
-						}
 						documentWrapper.setValidated(false);
-						successValidations.remove(documentWrapper);
+						documentWrapper.setDocumentErrorType(DocumentErrorType.INVALID_PATH);
 					}
 				});
 	}
 
-	public void existingDocumentCheck(List<DocumentWrapper> documentWrapperList, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations) {
+	public void existingDocumentCheck(List<DocumentWrapper> documentWrapperList) {
 
 		// validate with the local database if the cpId exists
 		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findAll();
@@ -104,13 +90,8 @@ public class FileImportDelegate {
 								.anyMatch(document -> (document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
 											&& BooleanUtils.isTrue(documentWrapper.getLocked())));
 						if (documentExists) {
-							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE_INPROGRESS))) {
-								failedValidations.get(DocumentErrorTypes.DUPLICATE_INPROGRESS).add(documentWrapper);
-							} else {
-								failedValidations.put(DocumentErrorTypes.DUPLICATE_INPROGRESS, new ArrayList<>(Arrays.asList(documentWrapper)));
-							}
 							documentWrapper.setValidated(false);
-							successValidations.remove(documentWrapper);
+							documentWrapper.setDocumentErrorType(DocumentErrorType.DUPLICATE_INPROGRESS);
 						}
 					});
 
@@ -122,59 +103,35 @@ public class FileImportDelegate {
 								.anyMatch(document -> (document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
 										&& BooleanUtils.isTrue(documentWrapper.getProcessed())));
 						if (documentExists) {
-							if (MapUtils.isNotEmpty(failedValidations) && CollectionUtils.isNotEmpty(failedValidations.get(DocumentErrorTypes.DUPLICATE_PROCESSED))) {
-								failedValidations.get(DocumentErrorTypes.DUPLICATE_PROCESSED).add(documentWrapper);
-							} else {
-								failedValidations.put(DocumentErrorTypes.DUPLICATE_PROCESSED, new ArrayList<>(Arrays.asList(documentWrapper)));
-							}
 							documentWrapper.setValidated(false);
-							successValidations.remove(documentWrapper);
+							documentWrapper.setDocumentErrorType(DocumentErrorType.DUPLICATE_PROCESSED);
 						}
 					});
 		}
 	}
 
-	public void persistValidations(DocumentView documentView, List<DocumentWrapper> successValidations, Map<DocumentErrorTypes, List<DocumentWrapper>> failedValidations){
+	public void persistValidations(List<DocumentWrapper> documentWrapperList){
 
-		if(MapUtils.isNotEmpty(failedValidations)){
-			failedValidations.entrySet().forEach(failedValidation -> {
-				if(!failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_INPROGRESS)
-						&& !failedValidation.getKey().equals(DocumentErrorTypes.DUPLICATE_PROCESSED)){
-					failedValidation.getValue().forEach(documentWrapper -> {
-						Optional.ofNullable(documentWrapper.getDocument())
-								.ifPresent(document -> {
-									Document existingDocument = documentRepository.findByCpId(document.getCpId());
-									if(existingDocument!=null){
-										document.setId(existingDocument.getId());
-										documentRepository.save(document);
-										DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
-										documentWrapper.setId(existingDocumentWrapper.getId());
-									}
-								});
-					});
-					documentWrapperRepository.saveAll(failedValidation.getValue());
+		if(CollectionUtils.isNotEmpty(documentWrapperList)){
+			documentWrapperList.forEach(documentWrapper -> {
+				if(Objects.isNull(documentWrapper.getDocumentErrorType()) && !
+						(documentWrapper.getDocumentErrorType().equals(DocumentErrorType.DUPLICATE_INPROGRESS)
+								|| documentWrapper.getDocumentErrorType().equals(DocumentErrorType.DUPLICATE_PROCESSED))) {
+					Optional.ofNullable(documentWrapper.getDocument())
+							.ifPresent(document -> {
+								Document existingDocument = documentRepository.findByCpId(document.getCpId());
+								if (existingDocument != null) {
+									document.setId(existingDocument.getId());
+									documentRepository.save(document);
+									DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
+									documentWrapper.setId(existingDocumentWrapper.getId());
+								} else {
+									documentRepository.save(document);
+								}
+							});
 				}
 			});
-			documentView.setFailedValidations(failedValidations);
-		}
-
-		if(CollectionUtils.isNotEmpty(successValidations)){
-			successValidations.forEach(documentWrapper -> {
-				Optional.ofNullable(documentWrapper.getDocument())
-						.ifPresent(document -> {
-							Document existingDocument = documentRepository.findByCpId(document.getCpId());
-							if(existingDocument!=null){
-								document.setId(existingDocument.getId());
-								documentRepository.save(document);
-								DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
-								documentWrapper.setId(existingDocumentWrapper.getId());
-							} else {
-								documentRepository.save(document);
-							}
-						});
-			});
-			documentWrapperRepository.saveAll(successValidations);
-			documentView.setSuccessValidations(successValidations);
+			documentWrapperRepository.saveAll(documentWrapperList);
 		}
 	}
 

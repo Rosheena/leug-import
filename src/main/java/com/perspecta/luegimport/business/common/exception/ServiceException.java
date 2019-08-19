@@ -1,4 +1,4 @@
-package com.perspecta.luegimport.business.common.error.exception;
+package com.perspecta.luegimport.business.common.exception;
 
 public class ServiceException extends RuntimeException {
 	public ServiceException(String message) {
