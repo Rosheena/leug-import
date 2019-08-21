@@ -58,7 +58,8 @@ public class FileImportDelegate {
 
 	public void validateFields(List<DocumentWrapper> documentWrapperList) {
 		// validate the list for empty fields
-		documentWrapperList
+		documentWrapperList.stream()
+				.filter(documentWrapper -> BooleanUtils.isTrue(documentWrapper.getValidated()))
 				.forEach(documentWrapper -> {
 					if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())
 							|| StringUtils.isBlank(documentWrapper.getDocument().getCpId())) {
@@ -72,7 +73,7 @@ public class FileImportDelegate {
 
 	public void checkFilePath(List<DocumentWrapper> documentWrapperList){
 		documentWrapperList.stream()
-				.filter(documentWrapper -> documentWrapper.getValidated())
+				.filter(documentWrapper ->  BooleanUtils.isTrue(documentWrapper.getValidated()))
 				.forEach(documentWrapper -> {
 					if(!new File(DOCUMENT_LOCATION+documentWrapper.getDocument().getFileLocation()).isFile()){
 						documentWrapper.setValidated(false);
@@ -87,8 +88,7 @@ public class FileImportDelegate {
 		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findAll();
 
 		if (CollectionUtils.isNotEmpty(userExistingDocuments)) {
-			documentWrapperList.stream()
-					.filter(documentWrapper -> documentWrapper.getValidated())
+			documentWrapperList
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)
@@ -100,8 +100,7 @@ public class FileImportDelegate {
 						}
 					});
 
-			documentWrapperList.stream()
-					.filter(documentWrapper -> documentWrapper.getValidated())
+			documentWrapperList
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)

@@ -33,14 +33,16 @@ public class FileImportService {
 		List<DocumentWrapper> documentWrapperList = documentCsvExtractor.extract(csvInputStream);
 
 		if(CollectionUtils.isNotEmpty(documentWrapperList)){
+
+			// validate to check if document is a duplicate
+			fileImportDelegate.existingDocumentCheck(documentWrapperList);
 			// validate file fields
 			fileImportDelegate.validateFields(documentWrapperList);
 
 			// check if file location is valid
 //			fileImportDelegate.checkFilePath(documentWrapperList);
 
-			// validate to check if document is a duplicate
-			fileImportDelegate.existingDocumentCheck(documentWrapperList);
+
 
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
