@@ -26,13 +26,6 @@
 						</div>
 					</div>
 
-					<!--<div class="text-center" ng-class="{ 'hidden' : (docManageCtrl.uploadingResults === null) }">
-						<div class="resultContainer">
-							<div class="result">
-								<p class="processing-result" ng-repeat="result in docManageCtrl.uploadingResults" level="{{ result.level }}">{{ result.message }}</p>
-							</div>
-						</div>
-					</div>-->
 				</div>
 
 				<div class="text-right">
@@ -59,8 +52,10 @@
 				<h3 class="text-center">No Results</h3>
 			</div>
 
+			<!--, orangeBg: validationResult.documentErrorType==='INVALID_CPID','DUPLICATE_INPROGRESS'-->
+
 			<table ng-table="docManageCtrl.tableParams" ng-show="docManageCtrl.uploadingResults.length > 0" class="table table-condensed table-bordered table-striped pilot-table" show-filter="true">
-				<tr ng-repeat="validationResult in $data track by validationResult.id" ng-class="{redBg: validationResult.documentErrorType==='DUPLICATE_INPROGRESS', orangeBg: validationResult.documentErrorType==='INVALID_CPID'}">
+				<tr ng-repeat="validationResult in $data track by validationResult.id" ng-class="{'redBg': validationResult.documentErrorType=='INVALID_CPID'}">
 					{{validationResult.documentErrorType}}
 					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" class="text-center">
 						<div ng-show="!validationResult.editing">
@@ -123,7 +118,19 @@
 						</div>
 					</td>
 
+					<td title="" class="action-column">
+						<button class="btn btn-primary" ng-show="!validationResult.editing" title="Edit Pilot" ng-click="docManageCtrl.beginDocumentEdits(validationResult);">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						</button>
 
+						<button class="btn btn-success" ng-show="validationResult.editing" title="Save Edits" ng-click="docManageCtrl.saveDocumentEdits(validationResult.edits, $index);">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</button>
+
+						<button class="btn btn-warning" ng-show="validationResult.editing" title="Dismiss Edits" ng-click="docManageCtrl.cancelDocumentEdits(validationResult);">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+					</td>
 
 				</tr>
 

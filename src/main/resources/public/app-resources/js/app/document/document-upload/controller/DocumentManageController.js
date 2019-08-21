@@ -1,4 +1,4 @@
-LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', 'Notification', 'SpinnerService', 'PromptService', 'StorageService', 'NgTableParams', function (DocumentUploadService, Notification, SpinnerService, PromptService, StorageService, NgTableParams) {
+LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', 'DocumentManageService', 'Notification', 'SpinnerService', 'PromptService', 'StorageService', 'NgTableParams', function (DocumentUploadService, DocumentManageService, Notification, SpinnerService, PromptService, StorageService, NgTableParams) {
 
     let vm = this;
     vm.uploader = null;
@@ -55,6 +55,35 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
     vm.clearFile = function () {
         vm.file = null;
         $("#openFileSelector").val(null);
+    };
+
+    vm.beginDocumentEdits = function (document) {
+        document.edits = angular.copy(document);
+        document.editing = true;
+    };
+
+    vm.cancelDocumentEdits = function (pilot) {
+        pilot.editing = false;
+        delete pilot.edits;
+    };
+
+    vm.saveDocumentEdits = function (document, idx) {
+        if (!DocumentManageService.isDocumentEditValid(document)) {
+            return;
+        }
+
+        SpinnerService.start();
+        DocumentManageService.saveDocumentEdits(document, function (err, response) {
+            SpinnerService.stop();
+
+            if (err) {
+                Notification.error({ title: 'Error saving Document Information', message: 'Please try again later' });
+            } else {
+                vm.tableParams.data.splice(idx, 1, pilot);
+                Notification.success('Succesfully saved Document information');
+            }
+        });
+
     };
 
 }]);
