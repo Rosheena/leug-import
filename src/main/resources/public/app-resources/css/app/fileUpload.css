@@ -1,3 +1,48 @@
 .upload-drop-box-file-added {
     border: dotted 3px green;
 }
+
+.document-table>tbody>tr>td,.document-table>tbody>tr>th,.document-table>tfoot>tr>td,.document-table>tfoot>tr>th,.document-table>thead>tr>td,.document-table>thead>tr>th,.document-table>thead>tr>th {
+    vertical-align: middle !important;
+}
+
+.document-table .ng-table-header {
+    text-align: center;
+}
+
+.document-table .action-column {
+    text-align: center;
+    min-width: 100px;
+}
+
+.document-table .form-group {
+    margin: 0;
+}
+
+.upload-drop-box {
+    background: #F8F8F8;
+    border: dotted 3px lightgray;
+    width: 100%;
+    height: 250px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.upload-drop-box-file-over {
+    border: dotted 3px darkblue;
+}
+
+.upload-drop-box-file-added {
+    border: dotted 3px green;
+}
+
+.upload-drop-box .link {
+    position: relative;
+    top: 50%;
+    transform: translateY(-70%);
+    text-decoration: underline #ddd;
+}
+
+.upload-drop-box:hover > .link {
+    text-decoration: underline #1c1c1c;
+}
