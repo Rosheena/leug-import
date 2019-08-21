@@ -55,7 +55,7 @@
 			<!--, orangeBg: validationResult.documentErrorType==='INVALID_CPID','DUPLICATE_INPROGRESS'-->
 
 			<table ng-table="docManageCtrl.tableParams" ng-show="docManageCtrl.uploadingResults.length > 0" class="table table-condensed table-bordered table-striped document-table" show-filter="true">
-				<tr ng-repeat="validationResult in $data track by validationResult.id" ng-class="{'redBg': validationResult.documentErrorType=='INVALID_CPID'}">
+				<tr ng-repeat="validationResult in $data track by validationResult.id" ng-class="{'redBg': validationResult.edits.documentErrorType=='INVALID_CPID'}">
 					{{validationResult.documentErrorType}}
 					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" class="text-center">
 						<div ng-show="!validationResult.editing">
