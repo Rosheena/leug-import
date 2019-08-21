@@ -60,7 +60,8 @@
 			</div>
 
 			<table ng-table="docManageCtrl.tableParams" ng-show="docManageCtrl.uploadingResults.length > 0" class="table table-condensed table-bordered table-striped pilot-table" show-filter="true">
-				<tr ng-repeat="validationResult in $data track by validationResult.id">
+				<tr ng-repeat="validationResult in $data track by validationResult.id" ng-class="{redBg: validationResult.documentErrorType==='DUPLICATE_INPROGRESS', orangeBg: validationResult.documentErrorType==='INVALID_CPID'}">
+					{{validationResult.documentErrorType}}
 					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.cpId }}
@@ -75,6 +76,7 @@
 
 					<td title="'Object Name'" filter="{'document.objectName': 'text'}" sortable="'document.objectName'" class="text-center">
 						<div ng-show="!validationResult.editing">
+							{{validationResult.documentErrorType}}
 							{{ validationResult.document.objectName }}
 						</div>
 

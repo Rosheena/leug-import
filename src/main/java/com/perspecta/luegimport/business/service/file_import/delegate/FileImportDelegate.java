@@ -154,6 +154,9 @@ public class FileImportDelegate {
 					documentWrapperViewList.add(documentWrapperView);
 				});
 
+		documentWrapperViewList.get(0).setDocumentErrorType(DocumentErrorType.DUPLICATE_INPROGRESS);
+		documentWrapperViewList.get(0).setDocumentErrorType(DocumentErrorType.INVALID_CPID);
+
 		return documentWrapperViewList;
 	}
 

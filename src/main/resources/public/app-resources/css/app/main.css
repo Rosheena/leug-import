@@ -4,6 +4,15 @@
     line-height: 1.42857143;
     color: #333;
 }
+ .redBg{
+     background-color: tomato;
+ }
+.orangeBg{
+    background-color: orange;
+}
+.greyBg{
+    background-color: grey;
+}
 
 .container {
     width: 100%;
