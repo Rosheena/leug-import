@@ -119,7 +119,7 @@ public class FileImportDelegate {
 
 		if(CollectionUtils.isNotEmpty(documentWrapperList)){
 			documentWrapperList.forEach(documentWrapper -> {
-				if(Objects.isNull(documentWrapper.getDocumentErrorType()) && !
+				if(Objects.isNull(documentWrapper.getDocumentErrorType()) || !
 						(documentWrapper.getDocumentErrorType().equals(DocumentErrorType.DUPLICATE_INPROGRESS)
 								|| documentWrapper.getDocumentErrorType().equals(DocumentErrorType.DUPLICATE_PROCESSED))) {
 					Optional.ofNullable(documentWrapper.getDocument())
