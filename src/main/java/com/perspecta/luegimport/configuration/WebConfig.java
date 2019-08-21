@@ -1,5 +1,6 @@
 package com.perspecta.luegimport.configuration;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -28,10 +29,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+
+	@Bean
 	@Order(0)
 	public MultipartFilter multipartFilter() {
 		MultipartFilter multipartFilter = new MultipartFilter();
 		multipartFilter.setMultipartResolverBeanName("multipartResolver");
 		return multipartFilter;
 	}
+
 }

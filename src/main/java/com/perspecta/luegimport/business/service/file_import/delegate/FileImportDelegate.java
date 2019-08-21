@@ -5,10 +5,13 @@ import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
+import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
+import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,11 +31,13 @@ public class FileImportDelegate {
 
 	private final DocumentRepository documentRepository;
 	private final DocumentWrapperRepository documentWrapperRepository;
+	private final ModelMapper modelMapper;
 
 	@Autowired
-	public FileImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository) {
+	public FileImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository, ModelMapper modelMapper) {
 		this.documentRepository = documentRepository;
 		this.documentWrapperRepository = documentWrapperRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	public List<DocumentWrapper> parseFile(String userName, MultipartFile file) {
@@ -133,6 +138,23 @@ public class FileImportDelegate {
 			});
 			documentWrapperRepository.saveAll(documentWrapperList);
 		}
+	}
+
+	public List<DocumentWrapperView> convertToView(List<DocumentWrapper> documentWrapperList){
+		List<DocumentWrapperView> documentWrapperViewList = new ArrayList<>();
+
+		Optional.ofNullable(documentWrapperList)
+				.orElse(Collections.emptyList())
+				.forEach(documentWrapper -> {
+					DocumentView documentView = new DocumentView();
+					modelMapper.map(documentWrapper.getDocument(), documentView);
+					DocumentWrapperView documentWrapperView = new DocumentWrapperView();
+					modelMapper.map(documentWrapper, documentWrapperView);
+					documentWrapperView.setDocument(documentView);
+					documentWrapperViewList.add(documentWrapperView);
+				});
+
+		return documentWrapperViewList;
 	}
 
 	private DocumentWrapper mapToDocumentWrapper(String line, String userName) {

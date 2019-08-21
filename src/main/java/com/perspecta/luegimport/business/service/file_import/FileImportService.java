@@ -47,9 +47,7 @@ public class FileImportService {
 
 		fileImportDelegate.persistValidations(documentWrapperList);
 
-		//TODO - convert to view
-
-		return documentView;
+		return fileImportDelegate.convertToView(documentWrapperList);
 	}
 
 	public void upload(User user, MultipartFile file){
