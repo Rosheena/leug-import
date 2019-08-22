@@ -23,13 +23,11 @@ public class FileImportDelegate {
 
 	private final DocumentRepository documentRepository;
 	private final DocumentWrapperRepository documentWrapperRepository;
-	private final ModelMapper modelMapper;
 
 	@Autowired
-	public FileImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository, ModelMapper modelMapper) {
+	public FileImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository) {
 		this.documentRepository = documentRepository;
 		this.documentWrapperRepository = documentWrapperRepository;
-		this.modelMapper = modelMapper;
 	}
 
 	public void validateFields(List<DocumentWrapper> documentWrapperList) {
