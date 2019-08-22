@@ -3,9 +3,6 @@ LuegImportApp.service('CrudHTTPService', ['$http', '$q', function ($http, $q) {
     this.create = function (url, obj, callback) {
         let $Deferred = $q.defer();
 
-        console.log(":obj")
-        console.log(obj)
-
         $http.post(url, obj)
             .then(function (response) {
                 if (callback) {
