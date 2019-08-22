@@ -1,9 +1,6 @@
 package com.perspecta.luegimport.business.service.file_import;
 
-import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
-import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
-import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.delegate.DocumentConverter;
 import com.perspecta.luegimport.business.service.file_import.delegate.FileImportDelegate;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
@@ -13,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.InputStream;
 import java.util.*;
