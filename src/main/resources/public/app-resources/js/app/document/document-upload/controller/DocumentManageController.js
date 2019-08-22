@@ -68,9 +68,9 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
     };
 
     vm.saveDocumentEdits = function (document, idx) {
-        if (!DocumentManageService.isDocumentEditValid(document)) {
+       /* if (!DocumentManageService.isDocumentEditValid(document)) {
             return;
-        }
+        }*/
 
         SpinnerService.start();
         DocumentManageService.saveDocumentEdits(document, function (err, response) {

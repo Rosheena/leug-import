@@ -6,7 +6,7 @@ LuegImportApp.service('DocumentManageService', ['CrudHTTPService', 'Notification
         CrudHTTPService.create(url, document, callback);
     };
 
-    this.isDocumentEditValid = function (document) {
+    /*this.isDocumentEditValid = function (document) {
         console.log("document");
         console.log(document);
         if (document.objectType==null || document.objectType=='') {
@@ -24,6 +24,6 @@ LuegImportApp.service('DocumentManageService', ['CrudHTTPService', 'Notification
         }
 
         return true;
-    };
+    };*/
 
 }]);
