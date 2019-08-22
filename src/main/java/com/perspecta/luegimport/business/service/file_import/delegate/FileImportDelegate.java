@@ -112,4 +112,46 @@ public class FileImportDelegate {
 			documentWrapperRepository.saveAll(documentWrapperList);
 		}
 	}
+
+	public void validateDocument(DocumentWrapper documentWrapper){
+
+		if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())
+				|| StringUtils.isBlank(documentWrapper.getDocument().getCpId())){
+			documentWrapper.setValidated(false);
+			documentWrapper.setDocumentErrorType(DocumentErrorType.MISSING_FIELD);
+			return;
+		}
+
+		List<DocumentWrapper> userExistingDocuments = documentWrapperRepository.findAll();
+
+		boolean documentExists = false;
+		if(CollectionUtils.isNotEmpty(userExistingDocuments)){
+			documentExists = userExistingDocuments.stream()
+					.map(DocumentWrapper::getDocument)
+					.anyMatch(document -> (StringUtils.isNotBlank(document.getCpId()) && document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
+							&& BooleanUtils.isTrue(documentWrapper.getLocked())));
+
+			if(documentExists){
+				documentWrapper.setValidated(false);
+				documentWrapper.setDocumentErrorType(DocumentErrorType.DUPLICATE_INPROGRESS);
+				return;
+			}
+
+			documentExists = userExistingDocuments.stream()
+					.map(DocumentWrapper::getDocument)
+					.anyMatch(document -> (StringUtils.isNotBlank(document.getCpId()) && document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
+							&& BooleanUtils.isTrue(documentWrapper.getProcessed())));
+
+			if(documentExists){
+				documentWrapper.setValidated(false);
+				documentWrapper.setDocumentErrorType(DocumentErrorType.DUPLICATE_PROCESSED);
+				return;
+			}
+		}
+
+		if(!new File(DOCUMENT_LOCATION+documentWrapper.getDocument().getFileLocation()).isFile()){
+			documentWrapper.setValidated(false);
+			documentWrapper.setDocumentErrorType(DocumentErrorType.INVALID_PATH);
+		}
+	}
 }

@@ -49,6 +49,7 @@ public class FileImportService {
 	public DocumentWrapperView processDocument(DocumentWrapperView documentWrapperView){
 
 		DocumentWrapper documentWrapper = documentConverter.convertToDocumentWrapper(documentWrapperView);
+		fileImportDelegate.validateDocument(documentWrapper);
 		return documentConverter.convertToView(documentWrapper);
 	}
 
