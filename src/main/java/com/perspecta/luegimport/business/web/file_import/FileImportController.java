@@ -27,7 +27,7 @@ public class FileImportController {
 	}
 
 	@PostMapping("/validate-document")
-	public DocumentWrapperView validateFile(@RequestParam DocumentWrapperView documentWrapper) throws IOException {
+	public DocumentWrapperView validateFile(@RequestParam DocumentWrapperView documentWrapper) {
 		return fileImportService.processDocument(documentWrapper);
 	}
 
