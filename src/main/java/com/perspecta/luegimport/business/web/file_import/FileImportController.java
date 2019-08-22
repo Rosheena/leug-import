@@ -32,9 +32,9 @@ public class FileImportController {
 	}
 
 	@PostMapping("/process")
-	public void handleFileUpload(@RequestParam User user, @RequestParam MultipartFile file){
+	public void handleFileUpload(@RequestParam List<DocumentWrapperView> documentWrapperViewList){
 		// TODO: generate a csv file for the failed validations
 		// TODO: save the successful validations in the database and process them
-		fileImportService.upload(user, file);
+		fileImportService.importDocuments(documentWrapperViewList);
 	}
 }

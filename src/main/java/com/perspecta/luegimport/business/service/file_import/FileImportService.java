@@ -56,10 +56,10 @@ public class FileImportService {
 		return documentConverter.convertToView(documentWrapper);
 	}
 
-	public void upload(User user, MultipartFile file){
+	public void importDocuments(List<DocumentWrapperView> documentWrapperViewList){
 
-		// process file
-		// update database
+		// TODO : lock the document (persist in database)
+		// TODO : process documents in documentum
 
 	}
 
