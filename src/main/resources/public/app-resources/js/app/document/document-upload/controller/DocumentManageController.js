@@ -63,8 +63,8 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
     };
 
     vm.cancelDocumentEdits = function (pilot) {
-        pilot.editing = false;
-        delete pilot.edits;
+        document.editing = false;
+        delete document.edits;
     };
 
     vm.saveDocumentEdits = function (document, idx) {
