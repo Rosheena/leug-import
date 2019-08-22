@@ -25,6 +25,16 @@ const handleError = function (err, defaultMessage) {
     notification("Error occurred", 'red', 10000);
 };
 
+const handleSuccessMessage = function (defaultMessage) {
+
+    if (_notIdle(defaultMessage)) {
+        notification(defaultMessage, 'green', 10000);
+
+        return;
+    }
+
+};
+
 const notification = function (message, color = 'red', time = 5000, callback) {
     let thisNotificationId = NOTIFICATIONS.length + 1;
     let thisNotificationPosition = NOTIFICATIONS.map(notification => notification.height).reduce((a, b) => a + b + 10, 0);

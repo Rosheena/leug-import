@@ -50,6 +50,7 @@ public class FileImportService {
 
 		DocumentWrapper documentWrapper = documentConverter.convertToDocumentWrapper(documentWrapperView);
 		fileImportDelegate.validateDocument(documentWrapper);
+		fileImportDelegate.persistDocument(documentWrapper);
 		return documentConverter.convertToView(documentWrapper);
 	}
 

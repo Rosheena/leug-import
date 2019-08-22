@@ -5,10 +5,7 @@ import com.perspecta.luegimport.business.service.file_import.FileImportService;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,12 +24,12 @@ public class FileImportController {
 	}
 
 	@PostMapping("/validate-document")
-	public DocumentWrapperView validateFile(@RequestParam DocumentWrapperView documentWrapper) {
+	public DocumentWrapperView validateFile(@RequestBody DocumentWrapperView documentWrapper) {
 		return fileImportService.processDocument(documentWrapper);
 	}
 
 	@PostMapping("/process")
-	public void handleFileUpload(@RequestParam List<DocumentWrapperView> documentWrapperViewList){
+	public void handleFileUpload(@RequestBody List<DocumentWrapperView> documentWrapperViewList){
 		// TODO: generate a csv file for the failed validations
 		// TODO: save the successful validations in the database and process them
 		fileImportService.importDocuments(documentWrapperViewList);

@@ -154,4 +154,9 @@ public class FileImportDelegate {
 			documentWrapper.setDocumentErrorType(DocumentErrorType.INVALID_PATH);
 		}
 	}
+
+	public void persistDocument(DocumentWrapper documentWrapper){
+		documentRepository.save(documentWrapper.getDocument());
+		documentWrapperRepository.save(documentWrapper);
+	}
 }

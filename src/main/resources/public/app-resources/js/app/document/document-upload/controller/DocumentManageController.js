@@ -79,8 +79,8 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             if (err) {
                 Notification.error({ title: 'Error saving Document Information', message: 'Please try again later' });
             } else {
-                vm.tableParams.data.splice(idx, 1, pilot);
-                Notification.success('Succesfully saved Document information');
+                vm.tableParams.data.splice(idx, 1, document);
+                handleSuccessMessage('Succesfully saved Document information');
             }
         });
 
