@@ -59,7 +59,8 @@ public class FileImportService {
 	public void importDocuments(List<DocumentWrapperView> documentWrapperViewList){
 
 		// TODO : lock the document (persist in database)
-		// TODO : process documents in documentum
+		// TODO : process documents
+		// TODO : update the successful entries in database with processed true
 
 	}
 
