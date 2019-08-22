@@ -2,7 +2,6 @@ package com.perspecta.luegimport.business.web.file_import;
 
 import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.FileImportService;
-import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,11 @@ public class FileImportController {
 	@PostMapping("/validate")
 	public List<DocumentWrapperView> validateFile(@RequestParam MultipartFile file) throws IOException {
 		return fileImportService.process(file.getInputStream());
+	}
+
+	@PostMapping("/validateDocument")
+	public DocumentWrapperView validateFile(@RequestParam DocumentWrapperView documentWrapper) throws IOException {
+		return fileImportService.processDocument(documentWrapper);
 	}
 
 	@PostMapping("/process")

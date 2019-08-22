@@ -4,6 +4,7 @@ import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
 import com.perspecta.luegimport.business.domain.user.User;
+import com.perspecta.luegimport.business.service.file_import.delegate.DocumentConverter;
 import com.perspecta.luegimport.business.service.file_import.delegate.FileImportDelegate;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import com.perspecta.luegimport.business.service.file_import.util.DocumentCsvExtractor;
@@ -25,8 +26,7 @@ public class FileImportService {
 
 	private final FileImportDelegate fileImportDelegate;
 	private final DocumentCsvExtractor documentCsvExtractor;
-	private final DocumentWrapperRepository documentWrapperRepository;
-	private final DocumentRepository documentRepository;
+	private final DocumentConverter documentConverter;
 
 	public List<DocumentWrapperView> process(InputStream csvInputStream){
 		// parse file
@@ -42,14 +42,18 @@ public class FileImportService {
 			// check if file location is valid
 //			fileImportDelegate.checkFilePath(documentWrapperList);
 
-
-
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
 
 		fileImportDelegate.persistValidations(documentWrapperList);
 
-		return fileImportDelegate.convertToView(documentWrapperList);
+		return documentConverter.convertToView(documentWrapperList);
+	}
+
+	public DocumentWrapperView processDocument(DocumentWrapperView documentWrapperView){
+
+		DocumentWrapper documentWrapper = documentConverter.convertToDocumentWrapper(documentWrapperView);
+		return documentConverter.convertToView(documentWrapper);
 	}
 
 	public void upload(User user, MultipartFile file){

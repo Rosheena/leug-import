@@ -5,8 +5,6 @@ import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document.DocumentRepository;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
-import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
-import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -70,7 +68,7 @@ public class FileImportDelegate {
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)
-								.anyMatch(document -> (document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
+								.anyMatch(document -> (StringUtils.isNotBlank(document.getCpId()) && document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
 											&& BooleanUtils.isTrue(documentWrapper.getLocked())));
 						if (documentExists) {
 							documentWrapper.setValidated(false);
@@ -82,7 +80,7 @@ public class FileImportDelegate {
 					.forEach(documentWrapper -> {
 						boolean documentExists = userExistingDocuments.stream()
 								.map(DocumentWrapper::getDocument)
-								.anyMatch(document -> (document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
+								.anyMatch(document -> (StringUtils.isNotBlank(document.getCpId()) && document.getCpId().equalsIgnoreCase(documentWrapper.getDocument().getCpId())
 										&& BooleanUtils.isTrue(documentWrapper.getProcessed())));
 						if (documentExists) {
 							documentWrapper.setValidated(false);
@@ -116,25 +114,4 @@ public class FileImportDelegate {
 			documentWrapperRepository.saveAll(documentWrapperList);
 		}
 	}
-
-	public List<DocumentWrapperView> convertToView(List<DocumentWrapper> documentWrapperList){
-		List<DocumentWrapperView> documentWrapperViewList = new ArrayList<>();
-
-		Optional.ofNullable(documentWrapperList)
-				.orElse(Collections.emptyList())
-				.forEach(documentWrapper -> {
-					DocumentView documentView = new DocumentView();
-					modelMapper.map(documentWrapper.getDocument(), documentView);
-					DocumentWrapperView documentWrapperView = new DocumentWrapperView();
-					modelMapper.map(documentWrapper, documentWrapperView);
-					documentWrapperView.setDocument(documentView);
-					documentWrapperViewList.add(documentWrapperView);
-				});
-
-		documentWrapperViewList.get(0).setDocumentErrorType(DocumentErrorType.DUPLICATE_INPROGRESS);
-		documentWrapperViewList.get(0).setDocumentErrorType(DocumentErrorType.INVALID_CPID);
-
-		return documentWrapperViewList;
-	}
-
 }
