@@ -36,6 +36,6 @@ public class FileImportController {
 
 	@GetMapping("/processed-results")
 	public List<DocumentWrapperView> getProcessedDocuments(){
-		return null;
+		return fileImportService.getProcessedDocuments();
 	}
 }

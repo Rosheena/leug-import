@@ -9,4 +9,6 @@ import java.util.UUID;
 @Repository
 public interface DocumentWrapperRepository extends JpaRepository<DocumentWrapper, Long> {
 	DocumentWrapper findByDocument_Id(Long id);
+
+	List<DocumentWrapper> findByProcessedTrueAndValidatedTrueAndLockedFalse();
 }

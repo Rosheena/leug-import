@@ -71,6 +71,8 @@ public class FileImportDelegate {
 						if (documentExists) {
 							documentWrapper.setValidated(false);
 							documentWrapper.setDocumentErrorType(DocumentErrorType.DUPLICATE_INPROGRESS);
+						} else {
+							documentWrapper.setValidated(true);
 						}
 					});
 
@@ -83,6 +85,8 @@ public class FileImportDelegate {
 						if (documentExists) {
 							documentWrapper.setValidated(false);
 							documentWrapper.setDocumentErrorType(DocumentErrorType.DUPLICATE_PROCESSED);
+						} else {
+							documentWrapper.setValidated(true);
 						}
 					});
 		}

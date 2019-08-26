@@ -1,6 +1,7 @@
 package com.perspecta.luegimport.business.service.file_import;
 
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
+import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
 import com.perspecta.luegimport.business.service.file_import.delegate.DocumentConverter;
 import com.perspecta.luegimport.business.service.file_import.delegate.FileImportDelegate;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
@@ -21,6 +22,7 @@ import java.util.*;
 public class FileImportService {
 
 	private final FileImportDelegate fileImportDelegate;
+	private final DocumentWrapperRepository documentWrapperRepository;
 	private final DocumentCsvExtractor documentCsvExtractor;
 	private final DocumentConverter documentConverter;
 
@@ -60,6 +62,11 @@ public class FileImportService {
 		// TODO : process documents
 		// TODO : update the successful entries in database with processed true
 
+	}
+
+	public List<DocumentWrapperView> getProcessedDocuments(){
+		List<DocumentWrapper> documentWrappers = documentWrapperRepository.findByProcessedTrueAndValidatedTrueAndLockedFalse();
+		return documentConverter.convertToView(documentWrappers);
 	}
 
 
