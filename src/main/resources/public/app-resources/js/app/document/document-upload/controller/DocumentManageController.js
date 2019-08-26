@@ -5,6 +5,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
     vm.file = null;
     vm.display_view = "selector";
     vm.uploadingResults = null;
+    vm.disableImport = false;
 
     vm.openFileDialog = function () {
         document.getElementById("openFileSelector").click();
@@ -35,8 +36,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             handleError(err, "Errors while uploading file");
         } else {
             vm.uploadingResults = response;
-            console.log("Results");
-            console.log(vm.uploadingResults);
+            vm.disableImportCheck();
             vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
             vm.fileName = vm.file.name;
         }
@@ -67,6 +67,15 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
         delete document.edits;
     };
 
+    vm.disableImportCheck = function() {
+        for(var i=0; i<vm.uploadingResults.length; i++){
+            if(vm.uploadingResults[i].documentErrorType != null){
+                vm.disableImport = true;
+                break;
+            }
+        }
+    }
+
     vm.saveDocumentEdits = function (document, documentEdits, idx) {
        /* if (!DocumentManageService.isDocumentEditValid(document)) {
             return;
@@ -81,10 +90,14 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             } else {
                 for(var i=0; i<vm.uploadingResults.length; i++){
                     if(vm.uploadingResults[i].id === response.id){
+                        console.log("response");
+                        console.log(response);
                         vm.uploadingResults[i]=response;
                     }
                 }
+
                 vm.tableParams.reload();
+                vm.disableImportCheck();
               //  vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
                // vm.tableParams.data.splice(idx, 1, documentEdits);
                 handleSuccessMessage('Successfully saved Document information');
