@@ -67,23 +67,30 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
         delete document.edits;
     };
 
-    vm.saveDocumentEdits = function (document, idx) {
+    vm.saveDocumentEdits = function (document, documentEdits, idx) {
        /* if (!DocumentManageService.isDocumentEditValid(document)) {
             return;
         }*/
 
         SpinnerService.start();
-        DocumentManageService.saveDocumentEdits(document, function (err, response) {
+        DocumentManageService.saveDocumentEdits(documentEdits, function (err, response) {
             SpinnerService.stop();
 
             if (err) {
                 Notification.error({ title: 'Error saving Document Information', message: 'Please try again later' });
             } else {
-                vm.tableParams.data.splice(idx, 1, document);
-                handleSuccessMessage('Succesfully saved Document information');
+                for(var i=0; i<vm.uploadingResults.length; i++){
+                    if(vm.uploadingResults[i].id === response.id){
+                        vm.uploadingResults[i]=response;
+                    }
+                }
+              //  vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
+               // vm.tableParams.data.splice(idx, 1, documentEdits);
+                handleSuccessMessage('Successfully saved Document information');
             }
         });
-
+        document.editing = false;
+        delete document.edits;
     };
 
 }]);

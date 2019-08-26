@@ -1,7 +1,6 @@
 package com.perspecta.luegimport.business.service.file_import.dto;
 
 import com.perspecta.luegimport.business.common.constants.DocumentErrorType;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
