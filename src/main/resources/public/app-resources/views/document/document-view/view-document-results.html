@@ -1,10 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
-<body>
+<div class="row" ng-init="docResultsCtrl.init();">
+	<hr />
+	<div ng-show="docManageCtrl.processedResults.length === 0">
+		<h3 class="text-center">No Results</h3>
+	</div>
+	<div class="col-lg-12" ng-show="docResultsCtrl.processedResults.length > 0">
+		<hr />
 
-</body>
-</html>
+		<div class="results-div">
+			<!--, orangeBg: validationResult.documentErrorType==='INVALID_CPID','DUPLICATE_INPROGRESS'-->
+
+			<table ng-table="docResultsCtrl.tableParams" ng-show="docResultsCtrl.processedResults.length > 0" class="table table-condensed table-bordered table-striped document-table" show-filter="true">
+				<tr ng-repeat="processedResult in $data track by processedResult.id" ng-class="{'redBg': processedResult.edits.documentErrorType=='INVALID_CPID'}">
+					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" class="text-center">
+						<div ng-show="!processedResult.editing">
+							{{ processedResult.document.cpId }}
+						</div>
+
+						<div ng-show="processedResult.editing">
+							<div class="form-group" ng-class="{ 'has-error' : !processedResult.edits.document.cpId }">
+								<input type="text" class="form-control" title="Cp_Id" ng-model="processedResult.edits.document.cpId" />
+							</div>
+						</div>
+					</td>
+
+					<td title="'Object Name'" filter="{'document.objectName': 'text'}" sortable="'document.objectName'" class="text-center">
+						<div ng-show="!processedResult.editing">
+							{{ processedResult.document.objectName }}
+						</div>
+
+						<div ng-show="processedResult.editing">
+							<div class="form-group" ng-class="{ 'has-error' : !processedResult.edits.document.objectName }">
+								<input type="text" class="form-control" title="Object name" ng-model="processedResult.edits.document.objectName" />
+							</div>
+						</div>
+					</td>
+
+					<td title="'Object Type'" filter="{'document.objectType': 'text'}" sortable="'document.objectType'" class="text-center">
+						<div ng-show="!processedResult.editing">
+							{{ processedResult.document.objectType }}
+						</div>
+
+						<div ng-show="processedResult.editing">
+							<div class="form-group" ng-class="{ 'has-error' : !processedResult.edits.document.objectType }">
+								<input type="text" class="form-control" title="Object_Type" ng-model="processedResult.edits.document.objectType" />
+							</div>
+						</div>
+					</td>
+
+					<td title="'Sub Type'" sortable="'document.subType'" class="text-center">
+						<div ng-show="!processedResult.editing">
+							{{ processedResult.document.subType }}
+						</div>
+
+						<div ng-show="processedResult.editing">
+							<div class="form-group" ng-class="{ 'has-error' : !processedResult.edits.document.subType }">
+								<input type="text" class="form-control" title="Sub Type" ng-model="processedResult.edits.document.subType" />
+							</div>
+						</div>
+					</td>
+
+					<td title="'Year'" sortable="'document.year'" class="text-center">
+						<div ng-show="!processedResult.editing">
+							{{ processedResult.document.year }}
+						</div>
+
+						<div ng-show="processedResult.editing">
+							<div class="form-group" ng-class="{ 'has-error' : !processedResult.edits.document.year }">
+								<input type="text" class="form-control" title="Sub Type" ng-model="processedResult.edits.document.year" />
+							</div>
+						</div>
+					</td>
+
+				</tr>
+
+			</table>
+
+		</div>
+
+	</div>
+</div>
