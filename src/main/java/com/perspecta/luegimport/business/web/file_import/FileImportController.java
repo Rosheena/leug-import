@@ -1,6 +1,5 @@
 package com.perspecta.luegimport.business.web.file_import;
 
-import com.perspecta.luegimport.business.domain.user.User;
 import com.perspecta.luegimport.business.service.file_import.FileImportService;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import lombok.RequiredArgsConstructor;

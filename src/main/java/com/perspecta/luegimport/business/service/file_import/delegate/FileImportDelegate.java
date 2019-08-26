@@ -101,8 +101,7 @@ public class FileImportDelegate {
 								if (existingDocument != null) {
 									document.setId(existingDocument.getId());
 									documentRepository.save(document);
-									DocumentWrapper existingDocumentWrapper = documentWrapperRepository.findByDocument_Id(existingDocument.getId());
-									documentWrapper.setId(existingDocumentWrapper.getId());
+									Optional.ofNullable(documentWrapperRepository.findByDocument_Id(existingDocument.getId())).ifPresent(existingDocumentWrapper -> documentWrapper.setId(existingDocumentWrapper.getId()));
 								} else {
 									documentRepository.save(document);
 								}
