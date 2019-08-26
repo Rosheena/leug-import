@@ -1,5 +1,8 @@
 LuegImportApp.service('DocumentManageService', ['CrudHTTPService', 'Notification', function (CrudHTTPService, Notification) {
 
+    this.documentResults = [];
+    this.userHasSearched = false;
+
     this.saveDocumentEdits = function (document, callback) {
         let url = 'app/lueg/document/validate-document';
         CrudHTTPService.create(url, document, callback);

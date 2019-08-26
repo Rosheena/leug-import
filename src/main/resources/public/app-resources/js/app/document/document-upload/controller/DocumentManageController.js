@@ -13,6 +13,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
 
     vm.init = function () {
         vm.uploader = DocumentUploadService.initUploader(this.afterUploadComplete, this.addingFile);
+        (DocumentManageService.userHasSearched) ? loadDocuments(DocumentManageService.documentResults) : false;
     }
 
     vm.submitSpreadsheet = function () {
@@ -39,6 +40,8 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             vm.disableImportCheck();
             vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
             vm.fileName = vm.file.name;
+            DocumentManageService.documentResults = vm.uploadingResults;
+            DocumentManageService.userHasSearched = true;
         }
 
         vm.clearFile();
@@ -98,6 +101,8 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
 
                 vm.tableParams.reload();
                 vm.disableImportCheck();
+                DocumentManageService.documentResults = vm.uploadingResults;
+                DocumentManageService.userHasSearched = true;
               //  vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
                // vm.tableParams.data.splice(idx, 1, documentEdits);
                 handleSuccessMessage('Successfully saved Document information');
@@ -112,5 +117,13 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
 
         });
     }
+
+    // Private functions
+
+    let loadDocuments = function (documentResults) {
+        vm.uploadingResults = documentResults;
+        DocumentManageService.documentResults =  vm.uploadingResults;   //  to save state when switching tabs
+        vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
+    };
 
 }]);
