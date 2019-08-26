@@ -84,6 +84,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
                         vm.uploadingResults[i]=response;
                     }
                 }
+                vm.tableParams.reload();
               //  vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
                // vm.tableParams.data.splice(idx, 1, documentEdits);
                 handleSuccessMessage('Successfully saved Document information');
