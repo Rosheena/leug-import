@@ -33,4 +33,9 @@ public class FileImportController {
 		// TODO: save the successful validations in the database and process them
 		fileImportService.importDocuments(documentWrapperViewList);
 	}
+
+	@GetMapping("/processed-results")
+	public List<DocumentWrapperView> getProcessedDocuments(){
+		return null;
+	}
 }
