@@ -1,6 +1,7 @@
 LuegImportApp.service('DocumentManageService', ['CrudHTTPService', 'Notification', function (CrudHTTPService, Notification) {
 
     this.documentResults = [];
+    this.fileName = "";
     this.userHasSearched = false;
 
     this.saveDocumentEdits = function (document, callback) {

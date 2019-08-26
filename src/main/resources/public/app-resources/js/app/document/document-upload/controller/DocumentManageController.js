@@ -13,7 +13,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
 
     vm.init = function () {
         vm.uploader = DocumentUploadService.initUploader(this.afterUploadComplete, this.addingFile);
-        (DocumentManageService.userHasSearched) ? loadDocuments(DocumentManageService.documentResults) : false;
+        (DocumentManageService.userHasSearched) ? loadDocuments(DocumentManageService.documentResults, DocumentManageService.fileName) : false;
     }
 
     vm.submitSpreadsheet = function () {
@@ -41,6 +41,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
             vm.fileName = vm.file.name;
             DocumentManageService.documentResults = vm.uploadingResults;
+            DocumentManageService.fileName = vm.fileName;
             DocumentManageService.userHasSearched = true;
         }
 
@@ -102,6 +103,7 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
                 vm.tableParams.reload();
                 vm.disableImportCheck();
                 DocumentManageService.documentResults = vm.uploadingResults;
+                DocumentManageService.fileName = vm.fileName;
                 DocumentManageService.userHasSearched = true;
               //  vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
                // vm.tableParams.data.splice(idx, 1, documentEdits);
@@ -120,8 +122,9 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
 
     // Private functions
 
-    let loadDocuments = function (documentResults) {
+    let loadDocuments = function (documentResults, fileName) {
         vm.uploadingResults = documentResults;
+        vm.fileName = fileName;
         DocumentManageService.documentResults =  vm.uploadingResults;   //  to save state when switching tabs
         vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
     };
