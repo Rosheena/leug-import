@@ -38,7 +38,7 @@
 	<hr />
 	<div class="col-lg-12" ng-show="docManageCtrl.uploadingResults.length > 0">
 		<hr />
-		<button class="btn btn-primary pull-right" ng-disabled="docManageCtrl.disableImport">Import</button>
+		<button class="btn btn-primary pull-right" ng-disabled="docManageCtrl.disableImport" ng-click="docManageCtrl.importDocuments();">Import</button>
 		<h3>{{docManageCtrl.fileName}}</h3>
 		<hr />
 

@@ -1,10 +1,14 @@
 LuegImportApp.service('DocumentManageService', ['CrudHTTPService', 'Notification', function (CrudHTTPService, Notification) {
 
     this.saveDocumentEdits = function (document, callback) {
-        console.log("hitting the endpoint");
         let url = 'app/lueg/document/validate-document';
         CrudHTTPService.create(url, document, callback);
     };
+
+    this.importDocuments() = function (documents, callback) {
+        let url = 'app/lueg/document/process';
+        CrudHTTPService.create(url, documents, callback);
+    }
 
     /*this.isDocumentEditValid = function (document) {
         console.log("document");

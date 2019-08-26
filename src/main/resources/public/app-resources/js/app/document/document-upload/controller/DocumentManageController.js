@@ -107,4 +107,10 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
         delete document.edits;
     };
 
+    vm.importDocuments = function () {
+        DocumentManageService.importDocuments(vm.uploadingResults, function (err, response) {
+
+        });
+    }
+
 }]);
