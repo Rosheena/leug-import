@@ -9,10 +9,10 @@ LuegImportApp.service('DocumentManageService', ['CrudHTTPService', 'Notification
         CrudHTTPService.create(url, document, callback);
     };
 
-    this.importDocuments() = function (documents, callback) {
+    this.importDocuments = function (documents, callback) {
         let url = 'app/lueg/document/process';
         CrudHTTPService.create(url, documents, callback);
-    }
+    };
 
     /*this.isDocumentEditValid = function (document) {
         console.log("document");
