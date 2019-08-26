@@ -25,14 +25,11 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
     vm.addingFile = function(file){
         vm.file = file;
         vm.uploadingResults = null;
-        console.log("final file");
-        console.log(vm.file);
     }
 
     vm.afterUploadComplete = function (err, response, display) {
 
         if (err) {
-            console.log('afterUploadComplete',err);
             vm.clearFile();
             handleError(err, "Errors while uploading file");
         } else {

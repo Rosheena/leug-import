@@ -52,16 +52,11 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
         }
 
         uploader.onCompleteItem = function (fileItem, response, status, headers) {
-            console.log("completing");
-            console.log("response")
             SpinnerService.stop();
 
             if (status !== 200) {
-                console.log(response);
                 afterUploadCompleteCallback('There was an error uploading the file', response, "selector");
             } else {
-                console.log("200 response");
-                console.log(response);
                 afterUploadCompleteCallback(null, response, "result");
             }
 
