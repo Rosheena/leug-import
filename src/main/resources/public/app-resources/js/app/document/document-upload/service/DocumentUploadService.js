@@ -1,4 +1,4 @@
-LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, PromptService, SpinnerService, StorageService) {
+LuegImportApp.service('DocumentUploadService', function ($rootScope, $http, FileUploader, PromptService, SpinnerService, StorageService) {
 
     var ACCEPTED_FILE_TYPES = ['csv', 'text/csv'];
 
@@ -10,6 +10,9 @@ LuegImportApp.service('DocumentUploadService', function ($http, FileUploader, Pr
             headers: {
                 Authorization: StorageService.getItem("AUTHORIZATION")
             },
+            formData: [
+                { "userName":  $rootScope.current_user.username }
+            ]
         });
 
         uploader.filters.push({

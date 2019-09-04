@@ -11,6 +11,9 @@ public class DocumentWrapperView {
 
 	private Long id;
 
+	private String documentName;
+	private String userName;
+
 	private DocumentView document;
 
 	private Boolean validated;

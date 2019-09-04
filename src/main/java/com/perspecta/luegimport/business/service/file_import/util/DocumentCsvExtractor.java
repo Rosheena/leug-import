@@ -32,7 +32,7 @@ public class DocumentCsvExtractor {
 									.build()
 					);
 
-	public List<DocumentWrapper> extract(InputStream csvInputStream){
+	public List<DocumentWrapper> extract(String userName, String documentName, InputStream csvInputStream){
 
 		log.info("Extracting rows");
 
@@ -49,6 +49,8 @@ public class DocumentCsvExtractor {
 					DocumentCsvRow csvRow = iterator.next();
 
 					DocumentWrapper documentWrapper = this.readDocument(csvRow);
+					documentWrapper.setUserName(userName);
+					documentWrapper.setDocumentName(documentName);
 
 					documentWrapperMap.put(documentWrapper.getDocument().getCpId(), documentWrapper);
 

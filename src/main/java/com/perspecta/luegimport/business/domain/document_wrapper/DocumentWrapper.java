@@ -19,6 +19,9 @@ public class DocumentWrapper {
 	@JoinColumn(name = "documentId")
 	private Document document;
 
+	private String documentName;
+	private String userName;
+
 	@Enumerated(EnumType.STRING)
 	private DocumentErrorType documentErrorType;
 

@@ -18,8 +18,8 @@ public class FileImportController {
 	private final FileImportService fileImportService;
 
 	@PostMapping("/validate")
-	public List<DocumentWrapperView> validateFile(@RequestParam MultipartFile file) throws IOException {
-		return fileImportService.process(file.getInputStream());
+	public List<DocumentWrapperView> validateFile(@RequestParam MultipartFile file, @RequestParam String userName) throws IOException {
+		return fileImportService.process(userName, file.getOriginalFilename(), file.getInputStream());
 	}
 
 	@PostMapping("/validate-document")

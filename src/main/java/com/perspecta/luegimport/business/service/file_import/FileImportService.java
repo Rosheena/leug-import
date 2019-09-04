@@ -26,9 +26,9 @@ public class FileImportService {
 	private final DocumentCsvExtractor documentCsvExtractor;
 	private final DocumentConverter documentConverter;
 
-	public List<DocumentWrapperView> process(InputStream csvInputStream){
+	public List<DocumentWrapperView> process(String userName, String documentName, InputStream csvInputStream){
 		// parse file
-		List<DocumentWrapper> documentWrapperList = documentCsvExtractor.extract(csvInputStream);
+		List<DocumentWrapper> documentWrapperList = documentCsvExtractor.extract(userName, documentName, csvInputStream);
 
 		if(CollectionUtils.isNotEmpty(documentWrapperList)){
 
