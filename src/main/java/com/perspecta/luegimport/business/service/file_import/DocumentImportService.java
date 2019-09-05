@@ -58,9 +58,14 @@ public class DocumentImportService {
 
 	public void importDocuments(List<DocumentWrapperView> documentWrapperViewList){
 
-		// TODO : lock the document (persist in database)
+		List<DocumentWrapper> documentWrappers = documentConverter.convertToDocumentWrapper(documentWrapperViewList);
+
+		// lock the document (persist in database)
+		documentImportDelegate.lockDocuments(documentWrappers);
 		// TODO : process documents
-		// TODO : update the successful entries in database with processed true
+
+		// update the successful entries in database with processed true
+		documentImportDelegate.markProcessedDocuments(documentWrappers);
 
 	}
 

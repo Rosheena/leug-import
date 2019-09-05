@@ -117,6 +117,9 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
         DocumentManageService.importDocuments(vm.uploadingResults, function (err, response) {
 
         });
+        vm.uploadingResults = null;
+        DocumentManageService.documentResults = vm.uploadingResults;
+        handleSuccessMessage('Entries submitted for import');
     }
 
     // Private functions

@@ -115,6 +115,29 @@ public class DocumentImportDelegate {
 		}
 	}
 
+	public void lockDocuments(List<DocumentWrapper> documentWrapperList){
+
+		if(CollectionUtils.isNotEmpty(documentWrapperList)){
+			documentWrapperList.forEach(documentWrapper -> {
+				documentWrapper.setLocked(true);
+			});
+
+			documentWrapperRepository.saveAll(documentWrapperList);
+		}
+	}
+
+	public void markProcessedDocuments(List<DocumentWrapper> documentWrapperList){
+
+		if(CollectionUtils.isNotEmpty(documentWrapperList)){
+			documentWrapperList.forEach(documentWrapper -> {
+				// TODO: check if document was processed
+				documentWrapper.setProcessed(true);
+				documentWrapper.setLocked(false);
+			});
+			documentWrapperRepository.saveAll(documentWrapperList);
+		}
+	}
+
 	public void validateDocument(DocumentWrapper documentWrapper){
 
 		if (StringUtils.isBlank(documentWrapper.getDocument().getObjectName())

@@ -35,11 +35,24 @@ public class DocumentConverter {
 					documentWrapperViewList.add(documentWrapperView);
 				});
 
-		documentWrapperViewList.get(0).setDocumentErrorType(DocumentErrorType.INVALID_PATH);
-		documentWrapperViewList.get(1).setDocumentErrorType(DocumentErrorType.INVALID_CPID);
-		documentWrapperViewList.get(2).setDocumentErrorType(DocumentErrorType.INVALID_CPID);
-
 		return documentWrapperViewList;
+	}
+
+	public List<DocumentWrapper> convertToDocumentWrapper(List<DocumentWrapperView> documentWrapperViewList){
+		List<DocumentWrapper> documentWrapperList = new ArrayList<>();
+
+		Optional.ofNullable(documentWrapperViewList)
+				.orElse(Collections.emptyList())
+				.forEach(documentWrapperView -> {
+					Document document = new Document();
+					modelMapper.map(documentWrapperView.getDocument(), document);
+					DocumentWrapper documentWrapper = new DocumentWrapper();
+					modelMapper.map(documentWrapperView, documentWrapper);
+					documentWrapper.setDocument(document);
+					documentWrapperList.add(documentWrapper);
+				});
+
+		return documentWrapperList;
 	}
 
 	public DocumentWrapper convertToDocumentWrapper(DocumentWrapperView documentWrapperView){
