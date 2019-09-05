@@ -3,7 +3,7 @@ package com.perspecta.luegimport.business.service.file_import;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapperRepository;
 import com.perspecta.luegimport.business.service.file_import.delegate.DocumentConverter;
-import com.perspecta.luegimport.business.service.file_import.delegate.FileImportDelegate;
+import com.perspecta.luegimport.business.service.file_import.delegate.DocumentImportDelegate;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentWrapperView;
 import com.perspecta.luegimport.business.service.file_import.util.DocumentCsvExtractor;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,9 @@ import java.util.*;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class FileImportService {
+public class DocumentImportService {
 
-	private final FileImportDelegate fileImportDelegate;
+	private final DocumentImportDelegate documentImportDelegate;
 	private final DocumentWrapperRepository documentWrapperRepository;
 	private final DocumentCsvExtractor documentCsvExtractor;
 	private final DocumentConverter documentConverter;
@@ -33,9 +33,9 @@ public class FileImportService {
 		if(CollectionUtils.isNotEmpty(documentWrapperList)){
 
 			// validate to check if document is a duplicate
-			fileImportDelegate.existingDocumentCheck(documentWrapperList);
+			documentImportDelegate.existingDocumentCheck(documentWrapperList);
 			// validate file fields
-			fileImportDelegate.validateFields(documentWrapperList);
+			documentImportDelegate.validateFields(documentWrapperList);
 
 			// check if file location is valid
 //			fileImportDelegate.checkFilePath(documentWrapperList);
@@ -43,7 +43,7 @@ public class FileImportService {
 			// TODO: validate with the remote database if the cpId isnt valid
 		}
 
-		fileImportDelegate.persistValidations(documentWrapperList);
+		documentImportDelegate.persistValidations(documentWrapperList);
 
 		return documentConverter.convertToView(documentWrapperList);
 	}
@@ -51,8 +51,8 @@ public class FileImportService {
 	public DocumentWrapperView processDocument(DocumentWrapperView documentWrapperView){
 
 		DocumentWrapper documentWrapper = documentConverter.convertToDocumentWrapper(documentWrapperView);
-		fileImportDelegate.validateDocument(documentWrapper);
-		fileImportDelegate.persistDocument(documentWrapper);
+		documentImportDelegate.validateDocument(documentWrapper);
+		documentImportDelegate.persistDocument(documentWrapper);
 		return documentConverter.convertToView(documentWrapper);
 	}
 

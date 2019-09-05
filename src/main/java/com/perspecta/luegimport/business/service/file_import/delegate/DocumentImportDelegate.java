@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.File;
@@ -17,7 +16,7 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class FileImportDelegate {
+public class DocumentImportDelegate {
 
 	private final static String DOCUMENT_LOCATION = "C:\\Records\\DEH";
 
@@ -25,7 +24,7 @@ public class FileImportDelegate {
 	private final DocumentWrapperRepository documentWrapperRepository;
 
 	@Autowired
-	public FileImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository) {
+	public DocumentImportDelegate(DocumentRepository documentRepository, DocumentWrapperRepository documentWrapperRepository) {
 		this.documentRepository = documentRepository;
 		this.documentWrapperRepository = documentWrapperRepository;
 	}
