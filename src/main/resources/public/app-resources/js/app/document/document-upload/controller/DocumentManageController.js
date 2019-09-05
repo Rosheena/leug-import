@@ -34,6 +34,8 @@ LuegImportApp.controller('DocumentManageController', ['DocumentUploadService', '
             handleError(err, "Errors while uploading file");
         } else {
             vm.uploadingResults = response;
+            console.log("response");
+            console.log(vm.uploadingResults);
             vm.disableImportCheck();
             vm.tableParams = new NgTableParams({ count : 100 }, { dataset : vm.uploadingResults });
             vm.fileName = vm.file.name;

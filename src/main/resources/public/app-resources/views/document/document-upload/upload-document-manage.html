@@ -50,9 +50,8 @@
 			<!--, orangeBg: validationResult.documentErrorType==='INVALID_CPID','DUPLICATE_INPROGRESS'-->
 
 			<table ng-table="docManageCtrl.tableParams" ng-show="docManageCtrl.uploadingResults.length > 0" class="table table-condensed table-bordered table-striped document-table" show-filter="true">
-				<tr ng-repeat="validationResult in $data track by validationResult.id" ng-class="{'redBg': validationResult.edits.documentErrorType=='INVALID_CPID'}">
-					{{validationResult.documentErrorType}}
-					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" class="text-center">
+				<tr ng-repeat="validationResult in $data track by validationResult.id">
+					<td title="'Cp_Id'" filter="{'document.cpId': 'text'}" sortable="'document.cpId'" ng-class="{'redBg': validationResult.documentErrorType === &quot;INVALID_CPID&quot;,'orangeBg': validationResult.documentErrorType === &quot;INVALID_PATH&quot;}" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.cpId }}
 						</div>
@@ -64,7 +63,7 @@
 						</div>
 					</td>
 
-					<td title="'Object Name'" filter="{'document.objectName': 'text'}" sortable="'document.objectName'" class="text-center">
+					<td title="'Object Name'" filter="{'document.objectName': 'text'}" sortable="'document.objectName'" ng-class="{'redBg': validationResult.documentErrorType === &quot;INVALID_CPID&quot;,'orangeBg': validationResult.documentErrorType === &quot;INVALID_PATH&quot;}" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.objectName }}
 						</div>
@@ -76,7 +75,7 @@
 						</div>
 					</td>
 
-					<td title="'Object Type'" filter="{'document.objectType': 'text'}" sortable="'document.objectType'" class="text-center">
+					<td title="'Object Type'" filter="{'document.objectType': 'text'}" sortable="'document.objectType'" ng-class="{'redBg': validationResult.documentErrorType === &quot;INVALID_CPID&quot;,'orangeBg': validationResult.documentErrorType === &quot;INVALID_PATH&quot;}" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.objectType }}
 						</div>
@@ -88,7 +87,7 @@
 						</div>
 					</td>
 
-					<td title="'Sub Type'" sortable="'document.subType'" class="text-center">
+					<td title="'Sub Type'" sortable="'document.subType'" ng-class="{'redBg': validationResult.documentErrorType === &quot;INVALID_CPID&quot;,'orangeBg': validationResult.documentErrorType === &quot;INVALID_PATH&quot;}" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.subType }}
 						</div>
@@ -100,7 +99,7 @@
 						</div>
 					</td>
 
-					<td title="'Year'" sortable="'document.year'" class="text-center">
+					<td title="'Year'" sortable="'document.year'" ng-class="{'redBg': validationResult.documentErrorType === &quot;INVALID_CPID&quot;,'orangeBg': validationResult.documentErrorType === &quot;INVALID_PATH&quot;}" class="text-center">
 						<div ng-show="!validationResult.editing">
 							{{ validationResult.document.year }}
 						</div>
@@ -112,7 +111,7 @@
 						</div>
 					</td>
 
-					<td title="" class="action-column">
+					<td title="" ng-class="{'redBg': validationResult.documentErrorType === &quot;INVALID_CPID&quot;,'orangeBg': validationResult.documentErrorType === &quot;INVALID_PATH&quot;}" class="action-column">
 						<button class="btn btn-primary" ng-show="!validationResult.editing" title="Edit Document" ng-click="docManageCtrl.beginDocumentEdits(validationResult);">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 						</button>

@@ -1,5 +1,6 @@
 package com.perspecta.luegimport.business.service.file_import.delegate;
 
+import com.perspecta.luegimport.business.common.constants.DocumentErrorType;
 import com.perspecta.luegimport.business.domain.document.Document;
 import com.perspecta.luegimport.business.domain.document_wrapper.DocumentWrapper;
 import com.perspecta.luegimport.business.service.file_import.dto.DocumentView;
@@ -34,6 +35,10 @@ public class DocumentConverter {
 					documentWrapperViewList.add(documentWrapperView);
 				});
 
+		documentWrapperViewList.get(0).setDocumentErrorType(DocumentErrorType.INVALID_PATH);
+		documentWrapperViewList.get(1).setDocumentErrorType(DocumentErrorType.INVALID_CPID);
+		documentWrapperViewList.get(2).setDocumentErrorType(DocumentErrorType.INVALID_CPID);
+
 		return documentWrapperViewList;
 	}
 
@@ -57,6 +62,7 @@ public class DocumentConverter {
 		modelMapper.map(documentWrapper, documentWrapperView);
 
 		documentWrapperView.setDocument(documentView);
+		documentWrapperView.setDocumentErrorType(DocumentErrorType.INVALID_PATH);
 
 		return documentWrapperView;
 	}
